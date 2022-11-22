@@ -23,7 +23,7 @@ public class UserInterface {
             System.out.println("7: Filtrere medlemmer");
 
             //kassere
-            System.out.println("8: Induviduel Kontingent");
+            System.out.println("8: Individuel Kontingent");
             System.out.println("9: Forventede kontingenter");
             System.out.println("10: Medlemmer i restance");
 
@@ -67,7 +67,10 @@ public class UserInterface {
     public void addMember() {
         //name
         System.out.print("Venligst indtast fulde navn: ");
-        String name = userInput.next();
+        // Scannerbug fix
+        userInput.nextLine();
+        String name = userInput.nextLine();
+
 
         //cpr
         System.out.print("Venligst indtast brugerens CPR-nummer (112233-xxxx): ");

@@ -7,9 +7,9 @@ public class MemberTest {
         String name = "Frederik";
         String cpr = "130898-1111";
         boolean active = false;
-        String type = "Motionist";
+        boolean competitive = false;
 
-        Member member = new Member(name, cpr, active, type);
+        Member member = new Member(name, cpr, active, competitive);
         assertEquals(24, member.getAge());
     }
 

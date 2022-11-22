@@ -5,13 +5,13 @@ public class Member {
     private String fullName;
     private String cpr; //make sure it has a specific amount of characters fx. 010199-1234
     private boolean active;
-    private String type;
+    private boolean competitive;
 
-    public Member(String fullName, String cpr, boolean active, String type) {
+    public Member(String fullName, String cpr, boolean active, boolean competitive) {
         this.fullName = fullName;
         this.cpr = cpr;
         this.active = active;
-        this.type = type;
+        this.competitive = competitive;
     }
 
     public String getName() {
@@ -58,12 +58,12 @@ public class Member {
         this.active = active;
     }
 
-    public String getType() {
-        return this.type;
+    public boolean getType() {
+        return this.competitive;
     }
 
-    public void setType() {
-        this.type = type;
+    public void setType(boolean competitive) {
+        this.competitive = competitive;
     }
 
 

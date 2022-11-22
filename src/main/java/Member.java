@@ -18,6 +18,15 @@ public class Member {
         return this.fullName;
     }
 
+    @Override
+    public String toString() {
+        return "Navn: '" + fullName + '\'' +
+                ", CPR-nummer: '" + cpr + '\'' +
+                ", Alder: '" + getAge() + '\'' +
+                ", Aktivt medlem: " + (active? "ja" : "nej") +
+                ", Konkurrencesvømmer: " + (competitive? "ja" : "nej");
+    }
+
     public void setName(String name) {
         this.fullName = name;
     }

@@ -86,6 +86,22 @@ public class Member {
         return this.uid;
     }
 
+    public String competetiveStatusToString(){
+        if (getCompetitiveStatus() == true) {
+            return "ja";
+        } else {
+            return "nej";
+        }
+    }
+
+    public String activeStatusToString(){
+        if (getActive() == true) {
+            return "ja";
+        } else {
+            return "nej";
+        }
+    }
+
 
 
 }

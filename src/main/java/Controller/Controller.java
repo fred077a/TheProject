@@ -50,4 +50,7 @@ public class Controller {
         database.deleteMember(deleteMember);
         saveMemberData();
     }
+
+
+
 }

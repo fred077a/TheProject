@@ -24,6 +24,8 @@ public class Controller {
     }
 
 
-
-
+    public void deleteMember(Member deleteMember) throws FileNotFoundException {
+        database.deleteMember(deleteMember);
+        saveMemberData();
+    }
 }

@@ -1,5 +1,6 @@
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class UserInterface {
@@ -11,49 +12,17 @@ public class UserInterface {
         do {
             //Introduction
             System.out.println("Velkommen til Delfinens medlemsdatabase");
-            System.out.println("Du har nu følgende valgmuligheder");
-            System.out.println("");
-
-            //Formand
-            System.out.println("1: Opret nyt medlem");
-            System.out.println("2: Se liste af medlemmer");
-            System.out.println("3: Redigere medlem");
-            System.out.println("4: Slet medlem");
-            System.out.println("5: Sortere medlemmer");
-            System.out.println("6: Søge og sorter");
-            System.out.println("7: Filtrere medlemmer");
-
-            //kassere
-            System.out.println("8: Individuel Kontingent");
-            System.out.println("9: Forventede kontingenter");
-            System.out.println("10: Medlemmer i restance");
-
-            //træner
-            System.out.println("11: Top 5 Svømmere");
-            System.out.println("12: Registrér resultat");
-
-            //Exit
-            System.out.println("13: Exit program");
-
-            System.out.print("Vælg kommando: ");
-            int menuChoice = userInput.nextInt();
-
-            switch (menuChoice) {
-                case 1: {
-                    addMember();
-                    break;
-                }
-                case 2: {
-                    printMembers();
-                    break;
-                }
-                case 13: {
-                    //todo: gem liste af medlemmer i en CSV-fil
-                    System.exit(0);
-                }
-                default: {
-
-                }
+            System.out.println("Du kan logge ind som følgende:");
+            System.out.println("1 - Formand");
+            System.out.println("2 - Kasserer");
+            System.out.println("3 - Træner");
+            System.out.print("Indtast venligst hvem du logger ind som (1-3): ");
+            int loginChoice = userInput.nextInt();
+            switch (loginChoice) {
+                case 1 -> presidentMenu();
+                case 2 -> accountantMenu();
+                case 3 -> trainerMenu();
+                default -> System.out.println("Ugyldig valgmulighed");
             }
         } while (true);
     }
@@ -210,5 +179,96 @@ public class UserInterface {
         } while (true);
 
         controller.createUser(name, cpr, active, competitive);
+    }
+
+    public void editMember() throws FileNotFoundException {
+            for (int i = 0; i < controller.getMembers().size(); i++) {
+                System.out.println(i + 1 + ": " + controller.getMembers().get(i));
+            }
+            int memberNumber = userInput.nextInt();
+            userInput.nextLine(); // scannerbug
+            Member memberToBeEdited = controller.getMembers().get(memberNumber - 1);
+
+            boolean exit = false;
+            do {
+                System.out.println("""
+                        Hvad skal redigeres?
+                        1: Navn
+                        2: Fødselsdag
+                        3: Aktiv / Passiv svømmer
+                        4: Konkurrencesvømmer / Fritidsvømmer
+                        5: Afslut redigering af svømmer
+                        """);
+                int menuChoice = userInput.nextInt();
+                userInput.nextLine(); //scannerbug
+                switch (menuChoice) {
+                    case 1: {
+                        System.out.print("Du vil skifte " + memberToBeEdited.getName() + " til: ");
+                        String newName = userInput.nextLine();
+                        memberToBeEdited.setName(newName);
+                        break;
+                    }
+                    case 2: {
+                        System.out.print("Du vil skifte " + memberToBeEdited.getBirthday() + " til: ");
+                        String newBirthday = userInput.nextLine();
+                        memberToBeEdited.setBirthday(newBirthday);
+                        break;
+                    }
+                    case 3: {
+                        System.out.print("Du vil skifte " + memberToBeEdited.getActive() + " til: true/false");
+                        Boolean newActiveStatus = userInput.nextBoolean();
+                        memberToBeEdited.setActive(newActiveStatus);
+                        break;
+                    }
+                    case 4: {
+                        System.out.print("Du vil skifte " + memberToBeEdited.getCompetitiveStatus() + " til: true/false");
+                        Boolean newCompetetiveStatus = userInput.nextBoolean();
+                        memberToBeEdited.setCompetitiveStatus(newCompetetiveStatus);
+                        break;
+                    }
+                    case 5: {
+                        exit = true;
+                        break;
+                    }
+                    default:
+                        System.out.println("Ugyldigt input");
+                }
+            } while (exit == false);
+            controller.saveMemberData();
+    }
+
+    public void deleteMember() throws FileNotFoundException {
+        ArrayList<Member> members = controller.getMembers();
+        //menu
+        for (int i = 0; i < members.size(); i++) {
+            System.out.println(i + 1 + ": " + controller.getMembers().get(i));
+        }
+        do {
+            try {
+                int memberNumber;
+                do {
+                    try {
+                        System.out.println("Indtast nummeret på det medlem som skal slettes:");
+                        System.out.println("Tast 0 for at annullere");
+                        memberNumber = userInput.nextInt();
+                        break;
+                    } catch (Exception exception) {
+                        System.out.println("Det skal være et tal.");
+                    }
+                } while (true);
+                //userInput.nextLine(); // scannerbugfix
+                if (memberNumber == 0) {
+                    break;
+                }
+                Member member = members.get(memberNumber-1);
+                System.out.println(member.getUid() + " er blevet fjernet fra databasen");
+                controller.deleteMember(member);
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Der skete en fejl, indtast venligst et nummer fra listen");
+                break;
+            }
+        } while (true);
+        controller.saveMemberData();
     }
 }

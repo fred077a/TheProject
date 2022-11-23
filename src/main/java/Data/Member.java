@@ -1,3 +1,5 @@
+package Data;
+
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -9,13 +11,13 @@ public class Member {
     private String uid;
     //TODO: restance system
 
-    public Member(String fullName, String birthday, boolean active, boolean competitive, int nameMatches) {
+    public Member(String fullName, String birthday, boolean active, boolean competitive, int latestNameId) {
         this.fullName = fullName;
         this.birthday = birthday;
         this.active = active;
         this.competitive = competitive;
         String newUserFirstName = fullName.split(" ")[0];
-        this.uid = newUserFirstName.toLowerCase() + (nameMatches + 1);
+        this.uid = newUserFirstName.toLowerCase() + (latestNameId + 1);
     }
 
     public Member(String fullName, String birthday, boolean active, boolean competitive, String uid) {

@@ -72,13 +72,18 @@ public class Member {
         this.active = active;
     }
 
-    public boolean getType() {
+    public boolean getCompetitiveStatus() {
         return this.competitive;
     }
 
-    public void setType(boolean competitive) {
+    public void setCompetitiveStatus(boolean competitive) {
         this.competitive = competitive;
     }
+
+    public String getUid() {
+        return this.uid;
+    }
+
 
 
 }

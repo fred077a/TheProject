@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class Controller {
@@ -21,6 +22,11 @@ public class Controller {
             ArrayList<Member> members = database.getMemberList();
             fileHandler.saveMemberList(members);
         }
+    }
+
+    public void loadMemberData() throws FileNotFoundException {
+        ArrayList<Member> members = fileHandler.loadMemberList();
+        database.setMemberArrayList(members);
     }
 
 

@@ -9,7 +9,7 @@ public class MemberTest {
         boolean active = false;
         boolean competitive = false;
 
-        Member member = new Member(name, cpr, active, competitive);
+        Member member = new Member(name, cpr, active, competitive, 0);
         assertEquals(24, member.getAge());
     }
 

@@ -14,6 +14,16 @@ public class Database {
         setChangesMade();
     }
 
+    public ArrayList<Member> getCompetitiveMembers() {
+        ArrayList<Member> competitiveMembers = new ArrayList<>();
+        for (Member member: members) {
+            if (member.getCompetitiveStatus()) {
+                competitiveMembers.add(member);
+            }
+        }
+        return competitiveMembers;
+    }
+
     //Todo add setChangesMade(); i edit user
     //Todo add setChangesMade(); i delete user
 
@@ -70,6 +80,36 @@ public class Database {
                 }
                 return searchResult;
             }
+            case 4 -> {
+                if (search.toLowerCase().equals("ja")) {
+                    for (Member member: this.members) {
+                        if (member.getActive()) {
+                            searchResult.add(member);
+                        }
+                    }
+                } else if (search.toLowerCase().equals("nej")) {
+                    for (Member member: this.members) {
+                        if (!member.getActive()) {
+                            searchResult.add(member);
+                        }
+                    }
+                }
+                return searchResult;
+            }
+            case 5 -> {
+                for (Member member: this.members) {
+                    if (search.toLowerCase().equals("ja")) {
+                        if (member.lateOnPayments() > 0) {
+                            searchResult.add(member);
+                        }
+                    } else if (search.toLowerCase().equals("nej")) {
+                        if (member.lateOnPayments() == 0) {
+                            searchResult.add(member);
+                        }
+                    }
+                }
+                return searchResult;
+            }
             default -> {
                 return searchResult;
             }
@@ -105,8 +145,6 @@ public class Database {
         this.members = memberArrayList;
     }
 
-    
-
     public ArrayList<CompititionResult> getCompititionResultArrayList() {
         return compititionResults;
     }
@@ -124,7 +162,7 @@ public class Database {
     }
 
     public Member getMemberFromSearch(String search) {
-        Member result = new Member("", "", false, false, "");
+        Member result = new Member("", "", false, false, "", 0);
         for (Member member: this.members) {
             String uid = member.getUid();
             if (uid.equals(search)) {

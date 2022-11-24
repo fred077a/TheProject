@@ -11,7 +11,7 @@ public class Controller {
     private Database database = new Database();
     private FileHandler fileHandler = new FileHandler();
 
-    public void createUser(String fullName, String birthday, boolean active, boolean competitive) throws FileNotFoundException {
+    public void createUser(String fullName, String birthday, boolean active, boolean competitive, int previousPayment) throws FileNotFoundException {
         int latestNameId = database.getLatestNameIdNumber(fullName);
         database.addUser(new Member(fullName, birthday, active, competitive, latestNameId));
         saveMemberData();
@@ -38,6 +38,10 @@ public class Controller {
 
     public Member getMemberFromUid(String uid) {
         return database.getMemberFromSearch(uid);
+    }
+
+    public ArrayList<Member> getCompetitiveMembers() {
+        return database.getCompetitiveMembers();
     }
 
     public void loadMemberData() throws FileNotFoundException {

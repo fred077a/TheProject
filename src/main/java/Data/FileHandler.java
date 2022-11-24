@@ -22,6 +22,8 @@ public class FileHandler {
             output.print(member.getCompetitiveStatus());
             output.print(";");
             output.print(member.getUid());
+            output.print(";");
+            output.print(member.getPreviousPayment());
             output.println();
         }
         output.flush();
@@ -44,7 +46,8 @@ public class FileHandler {
                                 attributes[1], //birthday
                                 Boolean.parseBoolean(attributes[2]), //active
                                 Boolean.parseBoolean(attributes[3]), //competitive
-                                attributes[4] //uid
+                                attributes[4], //uid
+                                Integer.parseInt(attributes[5]) //previousPayment
                         )
                 );
             }

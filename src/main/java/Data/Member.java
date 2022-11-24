@@ -11,21 +11,32 @@ public class Member {
     private String uid;
     //TODO: restance system
 
-    public Member(String fullName, String birthday, boolean active, boolean competitive, int latestNameId) {
+    public Member(String fullName, String birthday, boolean active, boolean competitive, int latestNameId, int previousPayment) {
         this.fullName = fullName;
         this.birthday = birthday;
         this.active = active;
         this.competitive = competitive;
         String newUserFirstName = fullName.split(" ")[0];
         this.uid = newUserFirstName.toLowerCase() + (latestNameId + 1);
+        this.previousPayment = previousPayment;
     }
 
-    public Member(String fullName, String birthday, boolean active, boolean competitive, String uid) {
+    public Member(String fullName, String birthday, boolean active, boolean competitive, String uid, int previousPayment) {
         this.fullName = fullName;
         this.birthday = birthday;
         this.active = active;
         this.competitive = competitive;
         this.uid = uid;
+        this.previousPayment = previousPayment;
+    }
+
+    public int getPreviousPayment() {
+        return this.previousPayment;
+    }
+
+    public int lateOnPayments() {
+        int currentYear = LocalDate.now().getYear();
+        return currentYear - this.previousPayment;
     }
 
     public String getName() {
@@ -102,6 +113,42 @@ public class Member {
         }
     }
 
+    public double getSubscriptionAmount() {
+        if (this.active) {
+            int age = getAge();
+            if (age < 18) {
+                //juniors
+                return 1000;
+            } else {
+                if (age > 60) {
+                    //seniors over 60.
+                    return 1600*0.75;
+                } else {
+                    //senior but not over 60.
+                    return 1600;
+                }
+            }
+        } else {
+            //passive member
+            return 500;
+        }
+    }
+
+
+
+    /*
+
+    ungdom under 18 -    1000 kr årligt
+    senior over 18  -    1600 kr årligt
+    over 60         -    1600 kr - 25% = 1200 årligt
+
+
+    passiv medlem   -    500 kr årligt
+
+
+
+
+     */
 
 
 }

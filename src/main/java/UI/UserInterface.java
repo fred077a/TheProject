@@ -60,9 +60,8 @@ public class UserInterface {
     public void presidentMenu() throws FileNotFoundException {
         System.out.println("Du er logget ind som formand.");
         do {
-
-            System.out.println("");
-            System.out.println("du har følgende valgmuligheder");
+            System.out.println("\nDu har følgende valgmuligheder");
+            System.out.println("------------------------------");
 
             //menu
             System.out.println("1: Opret nyt medlem");
@@ -90,24 +89,71 @@ public class UserInterface {
     public void trainerMenu() throws FileNotFoundException {
         System.out.println("Du er logget ind som træner.");
         do {
-            System.out.println("du har følgende valgmuligheder");
-            System.out.println("");
+            System.out.println("\nDu har følgende valgmuligheder");
+            System.out.println("------------------------------");
 
             //menu
             System.out.println("1: Se liste af konkurrencesvømmere");
-            System.out.println("2: Se liste af top 5 svømmere");
-            System.out.println("3: Søg");
-            System.out.println("4: Filtrér medlemmer");
-            System.out.println("5: Registrér resultat");
+            System.out.println("2: Registrér resultat");
+            System.out.println("3: Se liste af top 5 svømmere");
+            System.out.println("4: Søg");
+            System.out.println("5: Filtrér medlemmer");
             System.out.println("6: Gem og afslut");
             int menuChoice = getMenuChoice("(1-6)");
 
             switch (menuChoice) {
-                case 3 -> searchMembers();
+                case 1 -> getCompetitiveMembers();
+                //case 2 ->
+                //case 3 ->
+                case 4 -> searchMembers();
+                //case 5 ->
                 case 6 -> exitProgram();
                 default -> System.out.println("Ugyldig kommando");
             }
         } while (true);
+    }
+
+    public void addResult() {
+
+        //Svimmer id
+        System.out.print("Venligst indtast svømmerens ID: ");
+        String userId = userInput.nextLine();
+
+        //time
+        System.out.print("Venligst indtast svømmerens tid: ");
+        String cpr;
+        do {
+            String inputBirthday = userInput.next();
+            boolean amountCharactersCorrect = inputBirthday.length() == 8;
+            if (amountCharactersCorrect) {
+                cpr = inputBirthday;
+                break;
+            } else {
+                System.out.println("Indtast det rigtige format (24122022)");
+            }
+        } while(true);
+
+
+        //placement
+        boolean active;
+        System.out.print("Venligst indtast svømmerens placering: ");
+        do {
+            String answerActive = userInput.next();
+            if (answerActive.equals("ja")) {
+                active = true;
+                break;
+            } else if (answerActive.equals("nej")) {
+                active = false;
+                break;
+            } else {
+                System.out.println("Venligst svar enten 'ja' eller 'nej'");
+            }
+        } while (true);
+
+        //Competitive member or not.
+
+        //birthday
+
     }
 
     public void accountantMenu() throws FileNotFoundException {
@@ -117,13 +163,11 @@ public class UserInterface {
             System.out.println("");
 
             //menu
-            System.out.println("1: Se liste af medlemmer");
+            System.out.println("1: Se liste af medlemmers kontingenter");
             System.out.println("2: Søg efter bruger"); //from perspective of accountant - also shows payment amount
             System.out.println("3: Kontingentestimat");
-            System.out.println("4: Se medlemmer i restance");
-            System.out.println("5: Gem og afslut");
+            System.out.println("4: Gem og afslut");
             int menuChoice = getMenuChoice("(1-5)");
-
             switch (menuChoice) {
                 case 5 -> exitProgram();
                 default -> System.out.println("Ugyldig kommando");
@@ -197,7 +241,21 @@ public class UserInterface {
             }
         } while (true);
 
-        controller.createUser(name, cpr, active, competitive);
+        //birthday
+        System.out.print("Venligst indtast brugerens sidste betalingsår");
+        int previousPayment;
+        do {
+            try {
+                Scanner input = new Scanner(System.in);
+                previousPayment = input.nextInt();
+                break;
+            } catch (Exception ex) {
+
+            }
+        } while(true);
+
+
+        controller.createUser(name, cpr, active, competitive, previousPayment);
     }
 
     public void printMemberMenu() {
@@ -300,11 +358,12 @@ public class UserInterface {
         System.out.println("1. Navn");
         System.out.println("2. Alder");
         System.out.println("3. Bruger-ID");
-        System.out.println("4. Afslut søgning");
+        System.out.println("4. Aktivt medlem ('ja'/'nej')");
+        System.out.println("5. Afslut søgning");
 
         //menu choice
-        int menuChoice = getMenuChoice("(1-4)");
-        if (menuChoice != 4) {
+        int menuChoice = getMenuChoice("(1-5)");
+        if (menuChoice != 5) {
             System.out.print("Indtast søgeord: ");
             String search = getSearchCriteria(menuChoice);
 
@@ -351,5 +410,81 @@ public class UserInterface {
                 }
             } while (true);
         }
+    }
+
+    public void printMembersSubscriptions() {
+        ArrayList<Member> members = controller.getMembers();
+        for (Member member: members) {
+            System.out.println("Navn: '" + member.getName() + "', Bruger-ID: '" + member.getUid() + "', Aktiv medlem: '"
+                    + (member.getActive()? "Ja" : "Nej") + "' , Kontingentbeløb: 'kr." + member.getSubscriptionAmount() + "'");
+        }
+    }
+
+    public void getCompetitiveMembers() {
+        ArrayList<Member> members = controller.getCompetitiveMembers();
+        for (Member member: members) {
+            System.out.println(member);
+        }
+    }
+
+    public void searchMembersSubscription() {
+        //Menu items
+        System.out.println("\nDu kan søge ud fra følgende:");
+        System.out.println("1. Navn");
+        System.out.println("2. Alder");
+        System.out.println("3. Bruger-ID");
+        System.out.println("4. Aktiv-status ('ja' eller 'nej')");
+        System.out.println("5. I restance ('ja' eller 'nej')");
+        System.out.println("6 Afslut søgning");
+
+        //menu choice
+        int menuChoice = getMenuChoice("(1-6)");
+        if (menuChoice != 6) {
+            System.out.print("Indtast søgeord: ");
+            String search = getSearchCriteria(menuChoice);
+
+            ArrayList<Member> members = controller.searchMembers(menuChoice, search);
+            for (Member member: members) {
+                System.out.println(
+                        "Navn: '" + member.getName()
+                                + "', Bruger-ID: '" + member.getUid()
+                                + "', Aktiv medlem: '" + (member.getActive()? "Ja" : "Nej")
+                                + "' , Kontingentbeløb: 'kr." + member.getSubscriptionAmount()
+                                + "' , Antal år ikke betalt for: '" + member.lateOnPayments() + "' ");
+
+            }
+        }
+    }
+
+    public void totalSubscription() {
+        ArrayList<Member> members = controller.getMembers();
+        int totalSubscriptionAmount = 0;
+        int fromLatePayments = 0;
+        int fromPassiveMembers = 0;
+        int fromActiveMembers = 0;
+
+
+        for (Member member: members) {
+            double subscriptionAmount = member.getSubscriptionAmount();
+            totalSubscriptionAmount += subscriptionAmount;
+            if (member.lateOnPayments() > 0) {
+                fromLatePayments += subscriptionAmount;
+                totalSubscriptionAmount += subscriptionAmount;
+            }
+            if (!member.getActive()) {
+                fromPassiveMembers += subscriptionAmount;
+            } else {
+                fromActiveMembers += subscriptionAmount;
+            }
+        }
+
+        System.out.println();
+        System.out.println("Estimeret kontigentbeløb for i år er: kr. " + totalSubscriptionAmount + " (inkl. betalinger i restance)");
+        System.out.println("Estimeret kontigentbeløb for i år er: kr. " + (totalSubscriptionAmount - fromLatePayments) + " (eksl. betalinger i restance)");
+        System.out.println("Heraf kr. " + fromLatePayments + " fra medlemmer i restance.");
+        System.out.println("kr. " + fromActiveMembers + " fra aktive medlemmer " +
+                "og kr. " + fromPassiveMembers + " fra passive medlemmer");
+        System.out.println();
+
     }
 }

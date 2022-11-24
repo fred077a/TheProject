@@ -3,14 +3,24 @@ package Data;
 import java.time.LocalDate;
 
 public class Result {
-    protected String disciplineTitle;
-    protected double resultTime;
-    protected LocalDate date;
+    private Enum disciplineTitle;
+    private double resultTime;
+    private LocalDate date;
+    private String userId;
 
-    public Result(String disciplineTitle, double resultTime, LocalDate date){
+    public Result(Enum disciplineTitle, double resultTime, LocalDate date, String userId){
         this.disciplineTitle = disciplineTitle;
         this.resultTime = resultTime;
         this.date = date;
+        this.userId = userId;
+    }
+
+    public Enum getDisciplineTitle() {
+        return this.disciplineTitle;
+    }
+
+    public double getResultTime() {
+        return this.resultTime;
     }
 
 }

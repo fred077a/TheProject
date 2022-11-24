@@ -98,7 +98,7 @@ public class UserInterface {
             System.out.println("2: Registrér resultat");
             System.out.println("3: Se liste af top 5 svømmere");
             System.out.println("4: Søg");
-            System.out.println("5: Filtrér medlemmer");
+            System.out.println("5: Se hold");
             System.out.println("6: Gem og afslut");
             int menuChoice = getMenuChoice("(1-6)");
 
@@ -115,39 +115,135 @@ public class UserInterface {
     }
 
     public void addResult() {
-
-        //Svimmer id
-        System.out.print("Venligst indtast svømmerens ID: ");
-        String userId = userInput.nextLine();
-
-        //time
-        System.out.print("Venligst indtast svømmerens tid: ");
-        String cpr;
+        //competition or not
+        System.out.println("Indtastning af resultat.");
+        System.out.println("Er det et stævneresultat? ('ja' eller 'nej')");
+        boolean competitionResult;
         do {
-            String inputBirthday = userInput.next();
-            boolean amountCharactersCorrect = inputBirthday.length() == 8;
-            if (amountCharactersCorrect) {
-                cpr = inputBirthday;
+            Scanner scanner = new Scanner(System.in);
+            String answer = scanner.next();
+            if (answer.toLowerCase().equals("ja")) { // KONKURRENCETID
+                competitionResult = true;
+                String userId;
+                do {
+                    System.out.print("Venligst indtast svømmerens ID: ");
+                    answer = scanner.next();
+                    // matcher userinput bruger id på en rigtig member? hvis nej så print det er ikke en medlems id prøve igen
+                    if (controller.userExists(answer)) {
+                        userId = answer;
+                        break;
+                    } else {
+                        System.out.println("Der er ingen medlemmer med dette medlemsId");
+                    }
+
+                } while (true);
+
+                //Disciplinetitle
+                //Butterfly, crawl, rygcrawl og brystsvømning
+                System.out.println("Venligst indtast disciplintitel (1-4): ");
+                System.out.println("""
+                        1. Butterfly
+                        2. Crawl
+                        3. Rygcrawl
+                        4. Brystsvømning
+                        """);
+
+                Enum disciplinetitle = null;
+
+                do {
+                    int disciplineChoice = getMenuChoice("(1-4)");
+
+                    switch (disciplineChoice) {
+                        case 1 -> disciplinetitle = DisciplineTitles.BUTTERFLY;
+                        case 2 -> disciplinetitle = DisciplineTitles.CRAWL;
+                        case 3 -> disciplinetitle = DisciplineTitles.RYGCRAWL;
+                        case 4 -> disciplinetitle = DisciplineTitles.BREASTSTROKE;
+                        default -> System.out.println("Ugyldig kommando");
+                    } break;
+                }while(true);
+
+                //Time
+                System.out.print("Venligst indtast tidsresultatet : ");
+                double timeResult = userInput.nextDouble();
+
+                //Date
+                System.out.print("Venligst indtast dato (24122000): ");
+                String date = userInput.next();
+
+                //CompetitionTitle / Stævnenavn
+                System.out.print("Venligst indtast stævnenavn: ");
+                //todo: fix scanner issue.
+                userInput = new Scanner(System.in);
+                String competitionTitle = userInput.nextLine();
+
+                //Placement
+                System.out.print("Venligst indtast placering i stævnet: ");
+                int placement = userInput.nextInt();
+
+                break;
+            } else if (answer.toLowerCase().equals("nej")) { // TRÆNINGSTID
+                competitionResult = false;
+                String userId;
+                do {
+                    System.out.print("Venligst indtast svømmerens ID: ");
+                    answer = scanner.next();
+                    // matcher userinput bruger id på en rigtig member? hvis nej så print det er ikke en medlems id prøve igen
+                    if (controller.userExists(answer)) {
+                        userId = answer;
+                        break;
+                    } else {
+                        System.out.println("Der er ingen medlemmer med dette medlemsId");
+                    }
+
+                } while (true);
+
+                //Disciplinetitle
+                //Butterfly, crawl, rygcrawl og brystsvømning
+                System.out.print("Venligst indtast disciplintitel: ");
+                System.out.println("""
+                        1. Butterfly
+                        2. Crawl
+                        3. Rygcrawl
+                        4. Brystsvømning
+                        """);
+                Enum disciplinetitle = null;
+
+                do {
+                    int disciplineChoice = getMenuChoice("(1-4)");
+
+                    switch (disciplineChoice) {
+                        case 1 -> disciplinetitle = DisciplineTitles.BUTTERFLY;
+                        case 2 -> disciplinetitle = DisciplineTitles.CRAWL;
+                        case 3 -> disciplinetitle = DisciplineTitles.RYGCRAWL;
+                        case 4 -> disciplinetitle = DisciplineTitles.BREASTSTROKE;
+                        default -> System.out.println("Ugyldig kommando");
+                    } break;
+                }while(true);
+
+                //Time
+                System.out.print("Venligst indtast tidsresultatet: ");
+                double timeResult = userInput.nextDouble();
+
+                //Date
+                System.out.print("Venligst indtast dato (ddMMyyyy): ");
+                LocalDate date;
+                do {
+                    String dateInput = userInput.next();
+                    boolean amountCharactersCorrect = dateInput.length() == 8;
+                    if (amountCharactersCorrect) {
+                        int year = Integer.parseInt(dateInput.substring(4,8)); //24 12 1900
+                        int month = Integer.parseInt(dateInput.substring(2,4));
+                        int day = Integer.parseInt(dateInput.substring(0,2));
+                        date = LocalDate.of(year, month, day);
+                        break;
+                    } else {
+                        System.out.println("Indtast det rigtige format (24122022)");
+                    }
+                } while(true);
+                controller.addResult(disciplinetitle, timeResult, userId, date); //String disciplineTitle, double resultTime, String userId, LocalDate date
                 break;
             } else {
-                System.out.println("Indtast det rigtige format (24122022)");
-            }
-        } while(true);
-
-
-        //placement
-        boolean active;
-        System.out.print("Venligst indtast svømmerens placering: ");
-        do {
-            String answerActive = userInput.next();
-            if (answerActive.equals("ja")) {
-                active = true;
-                break;
-            } else if (answerActive.equals("nej")) {
-                active = false;
-                break;
-            } else {
-                System.out.println("Venligst svar enten 'ja' eller 'nej'");
+                System.out.println("Ugyldig kommando, tast venligst 'ja' eller 'nej'");
             }
         } while (true);
 
@@ -200,12 +296,12 @@ public class UserInterface {
 
         //birthday
         System.out.print("Venligst indtast brugerens fødselsdag (24122022): ");
-        String cpr;
+        String birthday;
         do {
             String inputBirthday = userInput.next();
             boolean amountCharactersCorrect = inputBirthday.length() == 8;
             if (amountCharactersCorrect) {
-                cpr = inputBirthday;
+                birthday = inputBirthday;
                 break;
             } else {
                 System.out.println("Indtast det rigtige format (24122022)");
@@ -258,7 +354,7 @@ public class UserInterface {
         } while(true);
 
 
-        controller.createUser(name, cpr, active, competitive, previousPayment);
+        controller.createUser(name, birthday, active, competitive, previousPayment);
     }
 
     public void printMemberMenu() {
@@ -488,6 +584,9 @@ public class UserInterface {
         System.out.println("kr. " + fromActiveMembers + " fra aktive medlemmer " +
                 "og kr. " + fromPassiveMembers + " fra passive medlemmer");
         System.out.println();
+    }
+
+    public void getTop5() {
 
     }
 }

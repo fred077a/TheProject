@@ -1,17 +1,27 @@
 package Data;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 public class Database {
     private ArrayList<Member> members = new ArrayList<>();
-    private ArrayList<CompititionResult> compititionResults = new ArrayList<>();
+    private ArrayList<CompetitionResult> competitionResults = new ArrayList<>();
     private boolean changesMade = false;
 
     public void addUser(Member member) {
         this.members.add(member);
         setChangesMade();
+    }
+
+    public boolean userExists(String userId) {
+        for (Member member: members) {
+            if (member.getUid().equals(userId.toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public ArrayList<Member> getCompetitiveMembers() {
@@ -29,6 +39,39 @@ public class Database {
     // Getter & Setter memberArrayList
     public ArrayList<Member> getMemberList() {
         return this.members;
+    }
+
+    public void addResult(Enum disciplineTitle, double resultTime, LocalDate date, String userId) {
+        Result result = new Result(disciplineTitle, resultTime, date, userId);
+        competitionResults.add((CompetitionResult) result);
+    }
+
+    public ArrayList<CompetitionResult> getTop5(Enum disciplineTitle) {
+        ArrayList<CompetitionResult> results = new ArrayList<>();
+        for (CompetitionResult result: competitionResults) {
+            if (result.getDisciplineTitle().equals(disciplineTitle)) {
+                results.add(result);
+            }
+        }
+        Collections.sort(competitionResults, new Comparator<Result>() {
+            @Override
+            public int compare(Result r1, Result r2) {
+                return String.valueOf(r1.getResultTime()).compareTo(String.valueOf(r2.getResultTime()));
+            }
+        });
+        results = (ArrayList<CompetitionResult>) results.subList(0, 5);
+        return results;
+    }
+
+    public void addResult(
+            Enum disciplineTitle,
+            double resultTime,
+            String userId,
+            LocalDate date,
+            String competitionTitle,
+            int placement) {
+        CompetitionResult result = new CompetitionResult(competitionTitle, placement, disciplineTitle, userId, resultTime, date);
+        competitionResults.add(result);
     }
 
     public int getLatestNameIdNumber(String newUserFullName) {
@@ -143,12 +186,12 @@ public class Database {
         this.members = memberArrayList;
     }
 
-    public ArrayList<CompititionResult> getCompititionResultArrayList() {
-        return compititionResults;
+    public ArrayList<CompetitionResult> getCompititionResultArrayList() {
+        return competitionResults;
     }
 
-    public void setCompititionResultArrayList(ArrayList<CompititionResult> compititionResultArrayList) {
-        this.compititionResults = compititionResultArrayList;
+    public void setCompititionResultArrayList(ArrayList<CompetitionResult> competitionResultArrayList) {
+        this.competitionResults = competitionResultArrayList;
     }
 
     public boolean getChangesMade() {

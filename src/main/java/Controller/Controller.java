@@ -1,10 +1,9 @@
 package Controller;
 
-import Data.Database;
-import Data.FileHandler;
-import Data.Member;
+import Data.*;
 
 import java.io.FileNotFoundException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Controller {
@@ -23,6 +22,22 @@ public class Controller {
 
     public ArrayList<Member> searchMembers(int menuChoice, String search) {
         return database.searchMembers(menuChoice, search);
+    }
+
+    public void addResult(Enum disciplineTitle, double resultTime, String userId, LocalDate date) {
+        database.addResult(disciplineTitle, resultTime, date, userId);
+    }
+
+    public void addResult(Enum disciplineTitle, double resultTime, String userId, LocalDate date, String competitionTitle, int placement) {
+        database.addResult(disciplineTitle, resultTime, userId, date, competitionTitle, placement);
+    }
+
+    public ArrayList<CompetitionResult> getTop5(Enum disciplineTitle) {
+        return database.getTop5(disciplineTitle);
+    }
+
+    public boolean userExists(String userId) {
+        return database.userExists(userId);
     }
 
     public ArrayList<Member> getMembers() {

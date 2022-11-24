@@ -9,7 +9,7 @@ public class Member {
     private boolean active;
     private boolean competitive;
     private String uid;
-    //TODO: restance system
+    private int previousPayment;
 
     public Member(String fullName, String birthday, boolean active, boolean competitive, int latestNameId, int previousPayment) {
         this.fullName = fullName;

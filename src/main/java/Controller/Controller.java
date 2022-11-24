@@ -13,7 +13,7 @@ public class Controller {
 
     public void createUser(String fullName, String birthday, boolean active, boolean competitive, int previousPayment) throws FileNotFoundException {
         int latestNameId = database.getLatestNameIdNumber(fullName);
-        database.addUser(new Member(fullName, birthday, active, competitive, latestNameId));
+        database.addUser(new Member(fullName, birthday, active, competitive, latestNameId, previousPayment));
         saveMemberData();
     }
 

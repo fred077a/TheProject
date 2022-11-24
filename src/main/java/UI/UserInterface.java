@@ -157,10 +157,10 @@ public class UserInterface {
     }
 
     public void accountantMenu() throws FileNotFoundException {
-        System.out.println("Du er logget ind som træner.");
+        System.out.println("Du er logget ind som kasserer.");
         do {
-            System.out.println("du har følgende valgmuligheder");
-            System.out.println("");
+            System.out.println("\nDu har følgende valgmuligheder");
+            System.out.println("------------------------------");
 
             //menu
             System.out.println("1: Se liste af medlemmers kontingenter");
@@ -190,8 +190,7 @@ public class UserInterface {
     public void addMember() throws FileNotFoundException {
         //name
         System.out.print("Venligst indtast fulde navn: ");
-        // Scannerbug fix
-        userInput.nextLine();
+
         String name = userInput.nextLine();
 
 

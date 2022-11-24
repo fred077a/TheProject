@@ -24,8 +24,6 @@ public class Database {
         return competitiveMembers;
     }
 
-    //Todo add setChangesMade(); i edit user
-    //Todo add setChangesMade(); i delete user
 
 
     // Getter & Setter memberArrayList

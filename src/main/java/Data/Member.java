@@ -136,19 +136,7 @@ public class Member {
 
 
 
-    /*
 
-    ungdom under 18 -    1000 kr årligt
-    senior over 18  -    1600 kr årligt
-    over 60         -    1600 kr - 25% = 1200 årligt
-
-
-    passiv medlem   -    500 kr årligt
-
-
-
-
-     */
 
 
 }

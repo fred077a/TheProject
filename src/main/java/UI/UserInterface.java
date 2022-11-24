@@ -104,8 +104,8 @@ public class UserInterface {
 
             switch (menuChoice) {
                 case 1 -> getCompetitiveMembers();
-                //case 2 ->
-                //case 3 ->
+                case 2 -> addResult();
+                //case 3 -> getTop5();
                 case 4 -> searchMembers();
                 //case 5 ->
                 case 6 -> exitProgram();

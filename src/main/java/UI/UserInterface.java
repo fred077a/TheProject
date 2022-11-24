@@ -169,7 +169,10 @@ public class UserInterface {
             System.out.println("4: Gem og afslut");
             int menuChoice = getMenuChoice("(1-5)");
             switch (menuChoice) {
-                case 5 -> exitProgram();
+                case 1 -> printMembersSubscriptions();
+                case 2 -> searchMembersSubscription();
+                case 3 -> totalSubscription();
+                case 4 -> exitProgram();
                 default -> System.out.println("Ugyldig kommando");
             }
         } while (true);

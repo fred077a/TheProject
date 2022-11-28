@@ -52,6 +52,18 @@ public class UserInterface {
         } while (true);
     }
 
+    public double getInputDouble(String text) {
+        do {
+            Scanner scanner = new Scanner(System.in);
+            try {
+                System.out.print(text);
+                return scanner.nextDouble();
+            } catch (Exception exception) {
+                System.out.println("Fejl, venligst indtast et tal");
+            }
+        } while (true);
+    }
+
     public String getSearchCriteria(int menuChoice) {
         do {
             Scanner scanner = new Scanner(System.in);
@@ -208,8 +220,7 @@ public class UserInterface {
                 Enum disciplinetitle = getDisciplineTitle();
 
                 //Time
-                System.out.print("Venligst indtast tidsresultatet: ");
-                double timeResult = userInput.nextDouble();
+                double timeResult = getInputDouble("Venligst indtast tidsresultatet: ");
 
                 //Date
                 LocalDate date = getDate();
@@ -247,6 +258,7 @@ public class UserInterface {
 
     public void exitProgram() throws FileNotFoundException {
         controller.saveMemberData();
+        controller.saveResults();
         System.exit(0);
     }
 

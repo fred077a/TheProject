@@ -15,6 +15,14 @@ public class Result {
         this.userId = userId;
     }
 
+    public String getUserId() {
+        return this.userId;
+    }
+
+    public LocalDate getDate() {
+        return this.date;
+    }
+
     public Enum getDisciplineTitle() {
         return this.disciplineTitle;
     }

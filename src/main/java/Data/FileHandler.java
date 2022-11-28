@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 public class FileHandler {
     private File file = new File("data/members.csv");
+    private File file2 = new File("data/results.csv");
 
 
     public void saveMemberList(ArrayList<Member> members) throws FileNotFoundException {

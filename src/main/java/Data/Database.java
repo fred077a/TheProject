@@ -139,6 +139,8 @@ public class Database {
         results.add(result);
     }
 
+
+
     public int getLatestNameIdNumber(String newUserFullName) {
         String newUserFirstName = newUserFullName.split(" ")[0];
         int latestNameId = 0;

@@ -11,8 +11,7 @@ public class Controller {
     private FileHandler fileHandler = new FileHandler();
 
     public void createUser(String fullName, String birthday, boolean active, boolean competitive, int previousPayment) throws FileNotFoundException {
-        int latestNameId = database.getLatestNameIdNumber(fullName);
-        database.addUser(new Member(fullName, birthday, active, competitive, latestNameId, previousPayment));
+        database.addUser(fullName, birthday, active, competitive, previousPayment);
         saveMemberData();
     }
 
@@ -32,7 +31,7 @@ public class Controller {
         database.addResult(disciplineTitle, resultTime, userId, date, competitionTitle, placement);
     }
 
-    public ArrayList<CompetitionResult> getTop5(Enum disciplineTitle) {
+    public ArrayList<Result> getTop5(Enum disciplineTitle) {
         return database.getTop5(disciplineTitle);
     }
 

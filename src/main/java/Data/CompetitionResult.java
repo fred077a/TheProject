@@ -12,4 +12,22 @@ public class CompetitionResult extends Result {
         this.placement = placement;
     }
 
+    public String getCompetitionTitle() {
+        return competitionTitle;
+    }
+
+    public int getPlacement() {
+        return placement;
+    }
+
+    @Override
+    public String toString() {
+        return "Disciplintitel: '" + super.getDisciplineTitle() +
+                "', Tid: " + super.getResultTime() +
+                "', Dato: " + super.getDate() +
+                "', Bruger-ID: '" + super.getUserId() +
+                "', Placering: '" + this.placement +
+                "', Stævnenavn: '" + this.competitionTitle + "'";
+    }
+
 }

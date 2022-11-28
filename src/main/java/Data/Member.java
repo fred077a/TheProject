@@ -10,16 +10,10 @@ public class Member {
     private boolean competitive;
     private String uid;
     private int previousPayment;
+    //todo new class Subscription
 
-    public Member(String fullName, String birthday, boolean active, boolean competitive, int latestNameId, int previousPayment) {
-        this.fullName = fullName;
-        this.birthday = birthday;
-        this.active = active;
-        this.competitive = competitive;
-        String newUserFirstName = fullName.split(" ")[0];
-        this.uid = newUserFirstName.toLowerCase() + (latestNameId + 1);
-        this.previousPayment = previousPayment;
-    }
+
+
 
     public Member(String fullName, String birthday, boolean active, boolean competitive, String uid, int previousPayment) {
         this.fullName = fullName;

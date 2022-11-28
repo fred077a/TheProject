@@ -7,10 +7,15 @@ import java.util.Comparator;
 
 public class Database {
     private ArrayList<Member> members = new ArrayList<>();
-    private ArrayList<CompetitionResult> competitionResults = new ArrayList<>();
+    private ArrayList<Result> results = new ArrayList<>();
     private boolean changesMade = false;
 
-    public void addUser(Member member) {
+    public void addUser(String fullName, String birthday, boolean active, boolean competitive, int previousPayment ) {
+        int latestNameId = getLatestNameIdNumber(fullName);
+        String newUserFirstName = fullName.split(" ")[0];
+        String uid = newUserFirstName.toLowerCase() + (latestNameId + 1);
+        Member member = new Member( fullName,  birthday,  active,  competitive,  uid,  previousPayment);
+
         this.members.add(member);
         setChangesMade();
     }
@@ -34,6 +39,12 @@ public class Database {
         return competitiveMembers;
     }
 
+    public void addResults(ArrayList<Result> results) {
+        for (Result result: results) {
+            this.results.add(result);
+        }
+    }
+
 
 
     // Getter & Setter memberArrayList
@@ -41,26 +52,80 @@ public class Database {
         return this.members;
     }
 
-    public void addResult(Enum disciplineTitle, double resultTime, LocalDate date, String userId) {
-        Result result = new Result(disciplineTitle, resultTime, date, userId);
-        competitionResults.add((CompetitionResult) result);
-    }
 
-    public ArrayList<CompetitionResult> getTop5(Enum disciplineTitle) {
-        ArrayList<CompetitionResult> results = new ArrayList<>();
-        for (CompetitionResult result: competitionResults) {
+    // Konkurance tider top 5 senior eller junior
+
+    // BUTTERFLY,
+    // CRAWL,
+    // BACKCRAWL,
+    // BREASTSTROKE,
+
+    // trænings tid top 5 senior eller junior
+
+    // BUTTERFLY,
+    // CRAWL,
+    // BACKCRAWL,
+    // BREASTSTROKE,
+
+
+    //todo: top 5 - aldersfordeling
+
+    public ArrayList<Result> getTop5(Enum disciplineTitle) {
+        ArrayList<Result> matchingResults = new ArrayList<>();
+        //finds matches for discipline
+        for (Result result: results) {
             if (result.getDisciplineTitle().equals(disciplineTitle)) {
-                results.add(result);
+                matchingResults.add(result);
             }
         }
-        Collections.sort(competitionResults, new Comparator<Result>() {
+        ArrayList<Result> top5 = new ArrayList<>();
+        for (int i = 0; i < matchingResults.size(); i++) {
+            if (top5.size() == 5) {
+                break;
+            }
+            Result result = matchingResults.get(i);
+            if (includeMembers(result.getUserId(), top5)) {
+                double resultTime = result.getResultTime();
+                int index = newTimeBetter(resultTime, top5);
+                if (index != -1) {
+                    top5.set(index, result);
+                }
+            } else {
+                top5.add(matchingResults.get(i));
+            }
+        }
+
+        //takes the top 5
+        Collections.sort(top5, new Comparator<Result>() {
             @Override
             public int compare(Result r1, Result r2) {
                 return String.valueOf(r1.getResultTime()).compareTo(String.valueOf(r2.getResultTime()));
             }
         });
-        results = (ArrayList<CompetitionResult>) results.subList(0, 5);
-        return results;
+        return top5;
+    }
+
+    public int newTimeBetter(double resultTime, ArrayList<Result> results) {
+        for (int i = 0; i < results.size(); i++) {
+            if (resultTime < results.get(i).getResultTime()) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public boolean includeMembers(String userID, ArrayList<Result> matchingResults) {
+        for (Result result: matchingResults) {
+            if (result.getUserId().equals(userID)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void addResult(Enum disciplineTitle, double resultTime, LocalDate date, String userId) {
+        Result result = new Result(disciplineTitle, resultTime, date, userId);
+        results.add(result);
     }
 
     public void addResult(
@@ -71,7 +136,7 @@ public class Database {
             String competitionTitle,
             int placement) {
         CompetitionResult result = new CompetitionResult(competitionTitle, placement, disciplineTitle, userId, resultTime, date);
-        competitionResults.add(result);
+        results.add(result);
     }
 
     public int getLatestNameIdNumber(String newUserFullName) {
@@ -186,12 +251,12 @@ public class Database {
         this.members = memberArrayList;
     }
 
-    public ArrayList<CompetitionResult> getCompititionResultArrayList() {
-        return competitionResults;
+    public ArrayList<Result> getResults() {
+        return results;
     }
 
-    public void setCompititionResultArrayList(ArrayList<CompetitionResult> competitionResultArrayList) {
-        this.competitionResults = competitionResultArrayList;
+    public void setCompititionResultArrayList(ArrayList<Result> competitionResultArrayList) {
+        this.results = competitionResultArrayList;
     }
 
     public boolean getChangesMade() {

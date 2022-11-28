@@ -274,13 +274,13 @@ public class UserInterface {
                 birthday = inputBirthday;
                 break;
             } else {
-                System.out.println("Indtast det rigtige format (24122022)");
+                System.out.println("Indtast det rigtige format (24122022): ");
             }
         } while(true);
 
         //active member or not. Making sure the answer is suitable. Same for competitive member.
         boolean active;
-        System.out.print("Venligst indtast om medlemmet er aktivt ('ja' eller 'nej')");
+        System.out.print("Venligst indtast om medlemmet er aktivt ('ja' eller 'nej'): ");
         do {
             String answerActive = userInput.next();
             if (answerActive.equals("ja")) {
@@ -290,13 +290,13 @@ public class UserInterface {
                 active = false;
                 break;
             } else {
-                System.out.println("Venligst svar enten 'ja' eller 'nej'");
+                System.out.println("Venligst svar enten 'ja' eller 'nej': ");
             }
         } while (true);
 
         //Competitive member or not.
         boolean competitive;
-        System.out.print("Venligst indsat om brugeren er konkurrencesvømmer ('ja' eller 'nej')");
+        System.out.print("Venligst indsat om brugeren er konkurrencesvømmer ('ja' eller 'nej'): ");
         do {
             String competitiveAnswer = userInput.next();
             if (competitiveAnswer.equals("ja")) {
@@ -306,12 +306,12 @@ public class UserInterface {
                 competitive = false;
                 break;
             } else {
-                System.out.println("Venligst svar enten 'ja' eller 'nej'");
+                System.out.println("Venligst svar enten 'ja' eller 'nej': ");
             }
         } while (true);
 
         //birthday
-        System.out.print("Venligst indtast brugerens sidste betalingsår");
+        System.out.print("Venligst indtast brugerens sidste betalingsår: ");
         int previousPayment;
         do {
             try {

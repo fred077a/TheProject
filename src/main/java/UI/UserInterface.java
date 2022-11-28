@@ -215,6 +215,7 @@ public class UserInterface {
                 LocalDate date = getDate();
 
                 controller.addResult(disciplinetitle, timeResult, userId, date); //String disciplineTitle, double resultTime, String userId, LocalDate date
+                controller.saveResults();
                 break;
             } else {
                 System.out.println("Ugyldig kommando, tast venligst 'ja' eller 'nej'");
@@ -557,5 +558,12 @@ public class UserInterface {
 
     public void getTop5() {
 
+
+
+        Enum disciplineTitle = getDisciplineTitle();
+        ArrayList<Result> results = controller.getTop5(disciplineTitle);
+        for (Result result: results) {
+            System.out.println(result);
+        }
     }
 }

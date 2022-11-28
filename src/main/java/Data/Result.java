@@ -23,6 +23,8 @@ public class Result {
         return this.resultTime;
     }
 
+
+
     @Override
     public String toString() {
         return "Disciplintitel: " + disciplineTitle +

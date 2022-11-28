@@ -69,6 +69,13 @@ public class Controller {
         saveMemberData();
     }
 
+    public void loadResults() throws FileNotFoundException {
+        ArrayList<Result> results = fileHandler.loadResult();
+        database.addResults(results);
+    }
 
-
+    public void saveResults() throws FileNotFoundException {
+        ArrayList<Result> results = database.getResults();
+        fileHandler.saveResult(results);
+    }
 }

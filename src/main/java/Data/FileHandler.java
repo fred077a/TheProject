@@ -73,7 +73,8 @@ public class FileHandler {
                 output.print(";");
                 output.print(result.getResultTime());
                 output.print(";");
-                output.println(result.getDate());
+                output.print(result.getDate());
+                output.println();
             } else {
                 output.print(result.getDisciplineTitle());
                 output.print(";");
@@ -81,7 +82,8 @@ public class FileHandler {
                 output.print(";");
                 output.print(result.getResultTime());
                 output.print(";");
-                output.println(result.getDate());
+                output.print(result.getDate());
+                output.println();
             }
         }
         output.flush();

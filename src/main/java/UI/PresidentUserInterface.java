@@ -111,7 +111,6 @@ public class PresidentUserInterface {
             }
         } while(true);
 
-
         userInterface.getController().createUser(name, birthday, active, competitive, previousPayment);
     }
 

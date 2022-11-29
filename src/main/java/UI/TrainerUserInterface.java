@@ -30,11 +30,11 @@ public class TrainerUserInterface {
     public Enum getDisciplineTitle() {
         System.out.println("Venligst indtast disciplintitel: ");
         System.out.println("""
-                        1. Butterfly
-                        2. Crawl
-                        3. Rygcrawl
-                        4. Brystsvømning
-                        """);
+                1. Butterfly
+                2. Crawl
+                3. Rygcrawl
+                4. Brystsvømning
+                """);
         Enum disciplinetitle = null;
 
         do {
@@ -45,8 +45,9 @@ public class TrainerUserInterface {
                 case 3 -> disciplinetitle = DisciplineTitles.BACKCRAWL;
                 case 4 -> disciplinetitle = DisciplineTitles.BREASTSTROKE;
                 default -> System.out.println("Ugyldig kommando");
-            } break;
-        }while(true);
+            }
+            break;
+        } while (true);
         return disciplinetitle;
     }
 
@@ -58,9 +59,9 @@ public class TrainerUserInterface {
             boolean amountCharactersCorrect = dateInput.length() == 8;
             if (amountCharactersCorrect) {
                 try {
-                    int year = Integer.parseInt(dateInput.substring(4,8)); //24 12 1900
-                    int month = Integer.parseInt(dateInput.substring(2,4));
-                    int day = Integer.parseInt(dateInput.substring(0,2));
+                    int year = Integer.parseInt(dateInput.substring(4, 8)); //24 12 1900
+                    int month = Integer.parseInt(dateInput.substring(2, 4));
+                    int day = Integer.parseInt(dateInput.substring(0, 2));
                     date = LocalDate.of(year, month, day);
                     break;
                 } catch (Exception ex) {
@@ -70,7 +71,7 @@ public class TrainerUserInterface {
             } else {
                 System.out.println("Indtast det rigtige format (24122022)");
             }
-        } while(true);
+        } while (true);
         return date;
     }
 
@@ -165,7 +166,7 @@ public class TrainerUserInterface {
 
     public void getCompetitiveMembers() {
         ArrayList<Member> members = userInterface.getController().getCompetitiveMembers();
-        for (Member member: members) {
+        for (Member member : members) {
             System.out.println(member);
         }
     }

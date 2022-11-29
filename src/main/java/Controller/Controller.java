@@ -75,7 +75,9 @@ public class Controller {
     }
 
     public void saveResults() throws FileNotFoundException {
-        ArrayList<Result> results = database.getResults();
-        fileHandler.saveResult(results);
+        if (database.getChangesMade()) {
+            ArrayList<Result> results = database.getResults();
+            fileHandler.saveResult(results);
+        }
     }
 }

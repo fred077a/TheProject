@@ -95,7 +95,7 @@ public class Database {
             }
         }
 
-        //takes the top 5
+        //sorts the top 5
         Collections.sort(top5, new Comparator<Result>() {
             @Override
             public int compare(Result r1, Result r2) {
@@ -126,6 +126,7 @@ public class Database {
     public void addResult(Enum disciplineTitle, double resultTime, LocalDate date, String userId) {
         Result result = new Result(disciplineTitle, resultTime, date, userId);
         results.add(result);
+        setChangesMade();
     }
 
     public void addResult(
@@ -137,6 +138,7 @@ public class Database {
             int placement) {
         CompetitionResult result = new CompetitionResult(competitionTitle, placement, disciplineTitle, userId, resultTime, date);
         results.add(result);
+        setChangesMade();
     }
 
 

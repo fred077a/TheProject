@@ -24,6 +24,10 @@ public class Member {
         this.previousPayment = previousPayment;
     }
 
+    public boolean isSenior() {
+        return getAge() >= 18;
+    }
+
     public int getPreviousPayment() {
         return this.previousPayment;
     }

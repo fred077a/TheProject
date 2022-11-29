@@ -28,7 +28,7 @@ public class AccountantUserInterface {
             System.out.println("2: Søg efter bruger"); //from perspective of accountant - also shows payment amount
             System.out.println("3: Kontingentestimat");
             System.out.println("4: Gem og afslut");
-            int menuChoice = userInterface.getInput("Indtast kommando (1-4): ");
+            int menuChoice = userInterface.getIntInput("Indtast kommando (1-4): ", 1, 5, "Indtast venligst et tal mellem 1-5");
             switch (menuChoice) {
                 case 1 -> printMembersSubscriptions();
                 case 2 -> searchMembersSubscription();

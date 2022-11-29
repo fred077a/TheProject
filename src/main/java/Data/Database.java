@@ -1,5 +1,5 @@
 package Data;
-
+import java.util.List;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -67,27 +67,46 @@ public class Database {
     // BACKCRAWL,
     // BREASTSTROKE,
 
-
-    //todo: top 5 - aldersfordeling
-
-    public ArrayList<Result> getTop5(Enum disciplineTitle) {
-        ArrayList<Result> matchingResults = new ArrayList<>();
-        //finds matches for discipline
-        for (Result result: results) {
-            if (result.getDisciplineTitle().equals(disciplineTitle)) {
-                matchingResults.add(result);
+    public int findMember(String userId) {
+        for (int i = 0; i < members.size(); i++) {
+            if (members.get(i).getUid().equals(userId)) {
+                return i;
             }
         }
-        ArrayList<Result> top5 = new ArrayList<>();
-        for (int i = 0; i < matchingResults.size(); i++) {
-            if (top5.size() == 5) {
-                break;
+        return -1;
+    }
+
+    public ArrayList<Result> getTop5(Enum disciplineTitle, boolean isSenior, boolean isCompetition) {
+        ArrayList<Result> matchingResults = new ArrayList<Result>();
+        //finds matches for discipline
+        for (Result result: results) {
+            String userId = result.getUserId();
+            int index = findMember(userId);
+            if (index != -1) {
+                int age = members.get(index).getAge();
+                boolean senior =  age >= 18;
+                boolean disciplineMatch = result.getDisciplineTitle().equals(disciplineTitle);
+                boolean competitionResult = result instanceof CompetitionResult;
+                if (disciplineMatch && isSenior == senior && isCompetition == competitionResult) {
+                    matchingResults.add(result);
+                }
             }
+        }
+        //making top5 list
+        ArrayList<Result> top5 = new ArrayList<>();
+
+        //runs through the matches AKA all relevant results (same discipline)
+        for (int i = 0; i < matchingResults.size(); i++) {
             Result result = matchingResults.get(i);
             if (includeMembers(result.getUserId(), top5)) {
+                //if person from result is already in top 5:
+
+                //getting result time and checks if this time is better.
                 double resultTime = result.getResultTime();
                 int index = newTimeBetter(resultTime, top5);
                 if (index != -1) {
+                    //result is better and replaces old
+                    //System.out.println("Found" + top5.get(index));
                     top5.set(index, result);
                 }
             } else {
@@ -102,7 +121,8 @@ public class Database {
                 return String.valueOf(r1.getResultTime()).compareTo(String.valueOf(r2.getResultTime()));
             }
         });
-        return top5;
+
+        return new ArrayList(top5.subList(0, top5.size() <= 5? top5.size() : 5));
     }
 
     public int newTimeBetter(double resultTime, ArrayList<Result> results) {

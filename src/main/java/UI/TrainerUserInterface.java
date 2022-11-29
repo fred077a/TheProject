@@ -18,12 +18,45 @@ public class TrainerUserInterface {
         this.userInput = this.userInterface.getUserInput();
     }
 
-    public void getTop5() {
+    public void trainerMenu() throws FileNotFoundException {
+        userInterface.getController().loadResults();
+        System.out.println("Du er logget ind som træner.");
+        do {
+            System.out.println("\nDu har følgende valgmuligheder");
+            System.out.println("------------------------------");
 
-        Enum disciplineTitle = getDisciplineTitle();
-        ArrayList<Result> results = userInterface.getController().getTop5(disciplineTitle);
-        for (Result result: results) {
-            System.out.println(result);
+            //menu
+            System.out.println("1: Se liste af konkurrencesvømmere");
+            System.out.println("2: Registrér resultat");
+            System.out.println("3: Se liste af top 5 svømmere");
+            System.out.println("4: Søg");
+            System.out.println("5: Se hold");
+            System.out.println("6: Gem og afslut");
+            int menuChoice = userInterface.getIntInput("Indtast kommando (1-6): ", 1, 7, "Indtast venligst et tal mellem 1-6");
+
+            switch (menuChoice) {
+                case 1 -> getCompetitiveMembers();
+                case 2 -> addResult();
+                case 3 -> showTop5();
+                case 4 -> userInterface.searchMembers();
+                //case 5 ->
+                case 6 -> userInterface.exitProgram();
+                default -> System.out.println("Ugyldig kommando");
+            }
+        } while (true);
+    }
+
+    public void showTop5() {
+        //Vælg mellem træningResultat eller KonkuranceResultat
+        System.out.println("Vælg hvad du vil se en top5 for");
+        System.out.println("1: Top 5 svømmetider i træning");
+        System.out.println("2: Top 5 svømmetider blandt konkurrencesvømmere ");
+        int resultatType = userInterface.getIntInput("Indtast kommando (1-2): ", 1, 3, "Indtast venligst et tal mellem 1-2");
+
+        switch (resultatType) {
+            case 1 -> top5Training();
+            case 2 -> top5Compitition();
+
         }
     }
 
@@ -76,7 +109,7 @@ public class TrainerUserInterface {
         Enum disciplinetitle = null;
 
         do {
-            int disciplineChoice = userInterface.getInput("Indtast kommando (1-4): ");
+            int disciplineChoice = userInterface.getIntInput("Indtast kommando (1-4): ", 1, 5, "Indtast venligst et tal mellem 1-4");
             switch (disciplineChoice) {
                 case 1 -> disciplinetitle = DisciplineTitles.BUTTERFLY;
                 case 2 -> disciplinetitle = DisciplineTitles.CRAWL;
@@ -113,82 +146,44 @@ public class TrainerUserInterface {
         return date;
     }
 
-    public void trainerMenu() throws FileNotFoundException {
-        userInterface.getController().loadResults();
-        System.out.println("Du er logget ind som træner.");
-        do {
-            System.out.println("\nDu har følgende valgmuligheder");
-            System.out.println("------------------------------");
-
-            //menu
-            System.out.println("1: Se liste af konkurrencesvømmere");
-            System.out.println("2: Registrér resultat");
-            System.out.println("3: Se liste af top 5 svømmere");
-            System.out.println("4: Søg");
-            System.out.println("5: Se hold");
-            System.out.println("6: Gem og afslut");
-            int menuChoice = userInterface.getInput("Indtast kommando (1-6): ");
-
-            switch (menuChoice) {
-                case 1 -> getCompetitiveMembers();
-                case 2 -> addResult();
-                case 3 -> getTop5();
-                case 4 -> userInterface.searchMembers();
-                //case 5 ->
-                case 6 -> userInterface.exitProgram();
-                default -> System.out.println("Ugyldig kommando");
-            }
-        } while (true);
-    }
-
     public void addResult() throws FileNotFoundException {
         //competition or not
         System.out.println("Indtastning af resultat.");
-        System.out.println("Er det et stævneresultat? ('ja' eller 'nej')");
         Controller controller = userInterface.getController();
-        boolean competitionResult;
+        boolean competitionResult = userInterface.getBoolean("Er det et stævneresultat? ('ja'/'nej')", "Venligst indtast 'ja' eller 'nej'");
         do {
-            Scanner scanner = new Scanner(System.in);
-            String answer = scanner.next();
-            if (answer.toLowerCase().equals("ja")) { // KONKURRENCETID
-                competitionResult = true;
-
+            if (competitionResult) {
                 //User ID
-                String userId = userInterface.getUserID(scanner);
+                String userId = userInterface.getUserID();
 
                 //Disciplinetitle
                 Enum disciplinetitle = getDisciplineTitle();
 
                 //Time
-                System.out.print("Venligst indtast tidsresultatet : ");
-                double timeResult = userInput.nextDouble();
+                double timeResult = userInterface.getInputDouble("Venligst indtast tidsresultatet i sekunder: ", 1, 1500);
 
                 //Date
                 LocalDate date = getDate();
 
-                // competition part
-                //CompetitionTitle / Stævnenavn
-                System.out.print("Venligst indtast stævnenavn: ");
-                userInput = new Scanner(System.in);
-                String competitionTitle = userInput.nextLine();
+                //CompetitionTitle
+                String competitionTitle = userInterface.getStringInput("Venligst indtast stævnenavn: ", 1, 100, "Ugyldig indtastning");
 
                 //Placement
-                int placement = userInterface.getInput("Venligst indtast placering i disciplinen: ");
+                int placement = userInterface.getIntInput("Venligst indtast placering i disciplinen: ", 1, 1000, "Indtast venligst en placering mellem 1-1000");
 
                 controller.addResult(disciplinetitle, timeResult, userId, date, competitionTitle, placement);
                 controller.saveResults();
                 break;
-            } else if (answer.toLowerCase().equals("nej")) { // TRÆNINGSTID
-                competitionResult = false;
+            } else { // TRÆNINGSTID
 
                 //User ID
-                String userId = userInterface.getUserID(scanner);
+                String userId = userInterface.getUserID();
 
                 //Disciplinetitle
                 Enum disciplinetitle = getDisciplineTitle();
 
                 //Time
-                double timeResult = userInterface.getInputDouble("Venligst indtast tidsresultatet: ");
+                double timeResult = userInterface.getInputDouble("Venligst indtast tidsresultatet i sekunder: ", 1, 10000);
 
                 //Date
                 LocalDate date = getDate();
@@ -196,8 +191,6 @@ public class TrainerUserInterface {
                 controller.addResult(disciplinetitle, timeResult, userId, date); //String disciplineTitle, double resultTime, String userId, LocalDate date
                 controller.saveResults();
                 break;
-            } else {
-                System.out.println("Ugyldig kommando, tast venligst 'ja' eller 'nej'");
             }
         } while (true);
     }

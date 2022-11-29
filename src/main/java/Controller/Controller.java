@@ -31,8 +31,8 @@ public class Controller {
         database.addResult(disciplineTitle, resultTime, userId, date, competitionTitle, placement);
     }
 
-    public ArrayList<Result> getTop5(Enum disciplineTitle) {
-        return database.getTop5(disciplineTitle);
+    public ArrayList<Result> getTop5(Enum disciplineTitle, boolean isSenior, boolean isCompetition) {
+        return database.getTop5(disciplineTitle, isSenior, isCompetition);
     }
 
     public boolean userExists(String userId) {

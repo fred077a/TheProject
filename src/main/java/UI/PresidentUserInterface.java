@@ -30,7 +30,7 @@ public class PresidentUserInterface {
             System.out.println("5: Sortér medlemmer");
             System.out.println("6: Søg blandt medlemmer");
             System.out.println("7: Gem og afslut");
-            int menuChoice = userInterface.getInput("Indtast kommando (1-7): ");
+            int menuChoice = userInterface.getIntInput("Indtast kommando (1-7): ", 1, 8, "Indtast venligst et tal mellem 1-9");
 
             switch (menuChoice) {
                 case 1 -> addMember();
@@ -47,56 +47,16 @@ public class PresidentUserInterface {
 
     public void addMember() throws FileNotFoundException {
         //name
-        System.out.print("Venligst indtast fulde navn: ");
-
-        String name = userInput.nextLine();
-
+        String name = userInterface.getStringInput("Venligst indtast fulde navn: ", 0, 100, "Fejl, prøv igen.");
 
         //birthday
-        System.out.print("Venligst indtast brugerens fødselsdag (24122022): ");
-        String birthday;
-        do {
-            String inputBirthday = userInput.next();
-            boolean amountCharactersCorrect = inputBirthday.length() == 8;
-            if (amountCharactersCorrect) {
-                birthday = inputBirthday;
-                break;
-            } else {
-                System.out.println("Indtast det rigtige format (24122022): ");
-            }
-        } while(true);
+        String birthday = userInterface.getStringInput("Venligst indtast brugerens fødselsdag (24122022): ", 8, 9, "Indtast venligst dato i rigtigt format (ddMMyyyy)");
 
         //active member or not. Making sure the answer is suitable. Same for competitive member.
-        boolean active;
-        System.out.print("Venligst indtast om medlemmet er aktivt ('ja' eller 'nej'): ");
-        do {
-            String answerActive = userInput.next();
-            if (answerActive.equals("ja")) {
-                active = true;
-                break;
-            } else if (answerActive.equals("nej")) {
-                active = false;
-                break;
-            } else {
-                System.out.println("Venligst svar enten 'ja' eller 'nej': ");
-            }
-        } while (true);
+        boolean active = userInterface.getBoolean("Er brugeren aktiv? ('ja'/'nej'): ", "Venligst indtast 'ja' eller 'nej");
 
         //Competitive member or not.
-        boolean competitive;
-        System.out.print("Venligst indsat om brugeren er konkurrencesvømmer ('ja' eller 'nej'): ");
-        do {
-            String competitiveAnswer = userInput.next();
-            if (competitiveAnswer.equals("ja")) {
-                competitive = true;
-                break;
-            } else if (competitiveAnswer.equals("nej")) {
-                competitive = false;
-                break;
-            } else {
-                System.out.println("Venligst svar enten 'ja' eller 'nej': ");
-            }
-        } while (true);
+        boolean competitive = userInterface.getBoolean("Venligst indsat om brugeren er konkurrencesvømmer ('ja'/'nej'): ", "Venligst indtast 'ja' eller 'nej");
 
         //birthday
         System.out.print("Venligst indtast brugerens sidste betalingsår: ");
@@ -264,11 +224,10 @@ public class PresidentUserInterface {
         System.out.println("3. Aktiv og passiv");
         System.out.println("4. Bruger-ID");
         System.out.println("5. Afslut sortering");
-        int menuChoice = userInterface.getInput("Indtast kommando (1-5): ");
+        int menuChoice = userInterface.getIntInput("Indtast kommando (1-5): ", 1, 6, "Indtast venligst et tal mellem 1-5");
         if (menuChoice != 5) {
             userInterface.getController().sortMembers(menuChoice);
             printMembers();
         }
     };
-
 }

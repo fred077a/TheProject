@@ -1,10 +1,8 @@
 package UI;
 import Controller.Controller;
 import Data.Member;
-import Data.Result;
 
 import java.io.FileNotFoundException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -32,7 +30,7 @@ public class UserInterface {
             System.out.println("1 - Formand");
             System.out.println("2 - Kasserer");
             System.out.println("3 - Træner");
-            int loginChoice = getInput("Indtast kommando (1-3): ");
+            int loginChoice = getIntInput("Indtast kommando (1-3): ", 1, 4, "Indtast venligst et tal mellem 1 og 3");
             switch (loginChoice) {
                 case 1 -> presidentUserInterface.presidentMenu();
                 case 2 -> accountantUserInterface.accountantMenu();
@@ -42,8 +40,9 @@ public class UserInterface {
         } while (true);
     }
 
-    public String getUserID(Scanner scanner) {
+    public String getUserID() {
         String userId;
+        Scanner scanner = new Scanner(System.in);
         do {
             System.out.print("Venligst indtast svømmerens ID: ");
             String answer = scanner.next();
@@ -91,7 +90,7 @@ public class UserInterface {
         System.out.println("5. Afslut søgning");
 
         //menu choice
-        int menuChoice = getInput("Indtast kommando (1-5): ");
+        int menuChoice = getIntInput("Indtast kommando (1-5): ", 1, 5, "Indtast venligst et tal mellem 1 og 5");
         if (menuChoice != 5) {
             System.out.print("Indtast søgeord: ");
             String search = getSearchCriteria(menuChoice);
@@ -104,28 +103,61 @@ public class UserInterface {
     }
 
     //Inputs
-    public int getInput(String text) {
+    public int getIntInput(String text, int min, int max, String onError) {
         Scanner scanner = new Scanner(System.in);
         do {
             try {
                 System.out.print(text);
-                return scanner.nextInt();
+                int result = scanner.nextInt();
+                if (min <= result && result < max) {
+                    return result;
+                }
             } catch (Exception exception) {
-                System.out.println("Fejl, venligst indtast et tal");
-                scanner.nextLine();
-
+                System.out.println(onError);
             }
         } while (true);
     }
 
-    public double getInputDouble(String text) {
+    public double getInputDouble(String text, int min, int max) {
         do {
             Scanner scanner = new Scanner(System.in);
             try {
                 System.out.print(text);
-                return scanner.nextDouble();
+                double result = scanner.nextDouble();
+                if (min >= result && result < max) {
+                    return result;
+                }
             } catch (Exception exception) {
                 System.out.println("Fejl, venligst indtast et tal");
+            }
+        } while (true);
+    }
+
+    public String getStringInput(String text, int minLength, int maxLength, String onError) {
+        do {
+            Scanner scanner = new Scanner(System.in);
+            try {
+                System.out.print(text);
+                String result = scanner.nextLine();
+                if (minLength <= result.length() && maxLength > result.length()) {
+                    return result;
+                }
+            } catch (Exception exception) {
+                System.out.println(onError);
+            }
+        } while (true);
+    }
+
+    public boolean getBoolean(String text, String onError) {
+        System.out.print(text);
+        do {
+            String answerActive = userInput.nextLine().toLowerCase();
+            if (answerActive.equals("ja")) {
+                return true;
+            } else if (answerActive.equals("nej")) {
+                return false;
+            } else {
+                System.out.println(onError);
             }
         } while (true);
     }

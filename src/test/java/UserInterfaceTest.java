@@ -6,7 +6,6 @@ public class UserInterfaceTest {
     @Test
     public void testAddResult() {
         UserInterface ui = new UserInterface();
-        ui.getTop5();
     }
 
 }

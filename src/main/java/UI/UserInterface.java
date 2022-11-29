@@ -262,6 +262,22 @@ public class UserInterface {
         System.exit(0);
     }
 
+    public String getSearchCriteria(int menuChoice) {
+        do {
+            Scanner scanner = new Scanner(System.in);
+            try {
+                if (menuChoice == 2) {
+                    int search = scanner.nextInt();
+                    return String.valueOf(search);
+                } else {
+                    return scanner.next();
+                }
+            } catch (Exception exception) {
+                System.out.println("Fejl, ugyldigt søgekriterie");
+            }
+        } while (true);
+    }
+
     public void printMembers() {
         ArrayList<Member> members = controller.getMembers();
         for (Member member: members) {

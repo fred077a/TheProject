@@ -27,6 +27,44 @@ public class TrainerUserInterface {
         }
     }
 
+    public void top5Training() {
+        System.out.println("Top5 svømmetider for senior");
+        printResults(userInterface.getController().getTop5(DisciplineTitles.BUTTERFLY, true, false), "Butterfly: ");
+        printResults(userInterface.getController().getTop5(DisciplineTitles.CRAWL, true, false), "Crawl: ");
+        printResults(userInterface.getController().getTop5(DisciplineTitles.BACKCRAWL, true, false), "Backcrawl: ");
+        printResults(userInterface.getController().getTop5(DisciplineTitles.BREASTSTROKE, true, false), "Brystsvømning: ");
+
+        System.out.println("Top5 svømmetider for juinor");
+        printResults(userInterface.getController().getTop5(DisciplineTitles.BUTTERFLY, false, false), "Butterfly: ");
+        printResults(userInterface.getController().getTop5(DisciplineTitles.CRAWL, false, false), "Crawl: ");
+        printResults(userInterface.getController().getTop5(DisciplineTitles.BACKCRAWL, false, false), "Backcrawl: ");
+        printResults(userInterface.getController().getTop5(DisciplineTitles.BREASTSTROKE, false, false), "Brystsvømning: ");
+
+
+    }
+
+    public void printResults(ArrayList<Result> results, String title) {
+        System.out.println(title);
+        for (Result result: results) {
+            System.out.println(result);
+        }
+        System.out.println();
+    }
+
+    public void top5Compitition() {
+        System.out.println("Top5 svømmetider for senior");
+        printResults(userInterface.getController().getTop5(DisciplineTitles.BUTTERFLY, true, true), "Butterfly: ");
+        printResults(userInterface.getController().getTop5(DisciplineTitles.CRAWL, true, true), "Crawl: ");
+        printResults(userInterface.getController().getTop5(DisciplineTitles.BACKCRAWL, true, true), "Backcrawl: ");
+        printResults(userInterface.getController().getTop5(DisciplineTitles.BREASTSTROKE, true, true), "Brystsvømning: ");
+
+        System.out.println("Top5 svømmetider for juinor");
+        printResults(userInterface.getController().getTop5(DisciplineTitles.BUTTERFLY, false, true), "Butterfly: ");
+        printResults(userInterface.getController().getTop5(DisciplineTitles.CRAWL, false, true), "Crawl: ");
+        printResults(userInterface.getController().getTop5(DisciplineTitles.BACKCRAWL, false, true), "Backcrawl: ");
+        printResults(userInterface.getController().getTop5(DisciplineTitles.BREASTSTROKE, false, true), "Brystsvømning: ");
+    }
+
     public Enum getDisciplineTitle() {
         System.out.println("Venligst indtast disciplintitel: ");
         System.out.println("""

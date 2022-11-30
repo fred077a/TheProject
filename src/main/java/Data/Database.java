@@ -17,7 +17,6 @@ public class Database {
         Member member = new Member( fullName,  birthday,  active,  competitive,  uid,  previousPayment);
 
         this.members.add(member);
-        setChangesMade();
     }
 
     public boolean userExists(String userId) {

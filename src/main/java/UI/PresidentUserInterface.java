@@ -81,6 +81,8 @@ public class PresidentUserInterface {
         }
     }
 
+
+
     public void printMemberMenu() {
         Controller controller = userInterface.getController();
         for (int i = 0; i < controller.getMembers().size(); i++) {

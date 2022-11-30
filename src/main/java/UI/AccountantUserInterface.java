@@ -70,13 +70,70 @@ public class AccountantUserInterface {
     }
 
     public void printMembersSubscriptions() {
+        final String red = "\u001B[31m";
+        final String green = "\u001B[32m";
+        final String yellow = "\u001B[33m";
+        final String blue = "\u001B[34m";
+        final String purple = "\u001B[35m";
+        final String cyan = "\u001B[36m";
+        final String resetText = "\u001B[0m";
         Controller controller = userInterface.getController();
         ArrayList<Member> members = controller.getMembers();
+        int longestName = 0;
+        int longestUserId = 0;
         for (Member member: members) {
-            System.out.println("Navn: '" + member.getName() + "', Bruger-ID: '" + member.getUid() + "', Aktiv medlem: '"
-                    + (member.getActive()? "Ja" : "Nej") + "' , Kontingentbeløb: 'kr." + member.getSubscriptionAmount() + "'");
+            int nameLength = member.getName().length();
+            if (nameLength > longestName) {
+                longestName = nameLength;
+            }
+            int uidLength = member.getUid().length();
+            if (uidLength > longestUserId) {
+                longestUserId = uidLength;
+            }
+        }
+        for (Member member: members) {
+            //System.out.println("Navn: '" + member.getName() + "', Bruger-ID: '" + member.getUid() + "', Aktiv medlem: '"
+            //        + (member.getActive()? "Ja" : "Nej") + "' , Kontingentbeløb: 'kr." + member.getSubscriptionAmount() + "'");
+            System.out.printf( "Navn: %-" + longestName + "s " + resetText +
+                    cyan + " Bruger-ID: %-" + longestUserId +"s " + resetText +
+                    blue + " Aktiv: %-3s " + resetText +
+                    purple + "Kontingentbeløb: %-15s" + resetText + "\n",
+                    member.getName(), member.getUid(), member.getActive()? "Ja" : "Nej", member.getSubscriptionAmount());
+
+
+
         }
     }
+
+    /*
+
+        ArrayList<Member> members = userInterface.getController().getMembers();
+        int longestName = 0;
+        int longestUserId = 0;
+        for (Member member: members) {
+            int nameLength = member.getName().length();
+            if (nameLength > longestName) {
+                longestName = nameLength;
+            }
+            int uidLength = member.getUid().length();
+            if (uidLength > longestUserId) {
+                longestUserId = uidLength;
+            }
+        }
+        for (Member member: members) {
+            System.out.printf(
+                    red + "Navn: %-" + longestName +"s " + resetText +//
+                            green + " Fødselsdag: %-8s " + resetText +
+                            yellow + " Alder: %-3s" + resetText +
+                            blue + " Aktiv: %-3s " + resetText +
+                            cyan + " Bruger-ID: %-" + longestUserId +"s " + resetText +//
+                            purple + " Konkurrencesvømmer: %-3s " + resetText + "\n"
+                    , member.getName(), member.getBirthday(), member.getAge(), member.getActive()? "Ja" : "Nej", member.getUid(), member.getCompetitiveStatus()? "Ja" : "Nej");
+        }
+    }
+
+
+     */
 
     public void searchMembersSubscription() {
         Controller controller = userInterface.getController();

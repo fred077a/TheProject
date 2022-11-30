@@ -35,7 +35,7 @@ public class TrainerUserInterface {
             switch (menuChoice) {
                 case 1 -> getCompetitiveMembers();
                 case 2 -> addResult();
-                case 3 -> showTop5();
+                case 3 -> showTop5Menu();
                 case 4 -> userInterface.searchMembers();
                 case 5 -> showTeams();
                 case 6 -> running = false;
@@ -81,7 +81,7 @@ public class TrainerUserInterface {
         System.out.println();
     }
 
-    public void showTop5() {
+    public void showTop5Menu() {
         //Vælg mellem træningResultat eller KonkuranceResultat
         System.out.println("Vælg hvad du vil se en top5 for");
         System.out.println("1: Top 5 svømmetider i træning");
@@ -109,6 +109,20 @@ public class TrainerUserInterface {
         printResults(userInterface.getController().getTop5(DisciplineTitles.BREASTSTROKE, false, false), "Brystsvømning: ");
 
 
+    }
+
+    public void top5Compitition() {
+        System.out.println("Top5 svømmetider for senior");
+        printResults(userInterface.getController().getTop5(DisciplineTitles.BUTTERFLY, true, true), "Butterfly: ");
+        printResults(userInterface.getController().getTop5(DisciplineTitles.CRAWL, true, true), "Crawl: ");
+        printResults(userInterface.getController().getTop5(DisciplineTitles.BACKCRAWL, true, true), "Backcrawl: ");
+        printResults(userInterface.getController().getTop5(DisciplineTitles.BREASTSTROKE, true, true), "Brystsvømning: ");
+
+        System.out.println("Top5 svømmetider for juinor");
+        printResults(userInterface.getController().getTop5(DisciplineTitles.BUTTERFLY, false, true), "Butterfly: ");
+        printResults(userInterface.getController().getTop5(DisciplineTitles.CRAWL, false, true), "Crawl: ");
+        printResults(userInterface.getController().getTop5(DisciplineTitles.BACKCRAWL, false, true), "Backcrawl: ");
+        printResults(userInterface.getController().getTop5(DisciplineTitles.BREASTSTROKE, false, true), "Brystsvømning: ");
     }
 
     public void printResults(ArrayList<Result> results, String title) {
@@ -167,20 +181,6 @@ public class TrainerUserInterface {
             }
         }
         System.out.println();
-    }
-
-    public void top5Compitition() {
-        System.out.println("Top5 svømmetider for senior");
-        printResults(userInterface.getController().getTop5(DisciplineTitles.BUTTERFLY, true, true), "Butterfly: ");
-        printResults(userInterface.getController().getTop5(DisciplineTitles.CRAWL, true, true), "Crawl: ");
-        printResults(userInterface.getController().getTop5(DisciplineTitles.BACKCRAWL, true, true), "Backcrawl: ");
-        printResults(userInterface.getController().getTop5(DisciplineTitles.BREASTSTROKE, true, true), "Brystsvømning: ");
-
-        System.out.println("Top5 svømmetider for juinor");
-        printResults(userInterface.getController().getTop5(DisciplineTitles.BUTTERFLY, false, true), "Butterfly: ");
-        printResults(userInterface.getController().getTop5(DisciplineTitles.CRAWL, false, true), "Crawl: ");
-        printResults(userInterface.getController().getTop5(DisciplineTitles.BACKCRAWL, false, true), "Backcrawl: ");
-        printResults(userInterface.getController().getTop5(DisciplineTitles.BREASTSTROKE, false, true), "Brystsvømning: ");
     }
 
     public Enum getDisciplineTitle() {
@@ -256,7 +256,7 @@ public class TrainerUserInterface {
                 //Placement
                 int placement = userInterface.getIntInput("Venligst indtast placering i disciplinen: ", 1, 1000, "Indtast venligst en placering mellem 1-1000");
 
-                controller.addResult(disciplinetitle, timeResult, userId, date, competitionTitle, placement);
+                controller.addCompetitionResult(disciplinetitle, timeResult, userId, date, competitionTitle, placement);
                 controller.saveResults();
                 break;
             } else { // TRÆNINGSTID

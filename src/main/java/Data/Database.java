@@ -43,27 +43,9 @@ public class Database {
         }
     }
 
-
-
-    // Getter & Setter memberArrayList
     public ArrayList<Member> getMemberList() {
         return this.members;
     }
-
-
-    // Konkurance tider top 5 senior eller junior
-
-    // BUTTERFLY,
-    // CRAWL,
-    // BACKCRAWL,
-    // BREASTSTROKE,
-
-    // trænings tid top 5 senior eller junior
-
-    // BUTTERFLY,
-    // CRAWL,
-    // BACKCRAWL,
-    // BREASTSTROKE,
 
     public int findMember(String userId) {
         for (int i = 0; i < members.size(); i++) {
@@ -140,12 +122,12 @@ public class Database {
         return false;
     }
 
-    public void addResult(Enum disciplineTitle, double resultTime, LocalDate date, String userId) {
+    public void addTrainingResult(Enum disciplineTitle, double resultTime, LocalDate date, String userId) {
         Result result = new Result(disciplineTitle, resultTime, date, userId);
         results.add(result);
     }
 
-    public void addResult(
+    public void addCompetitionResult(
             Enum disciplineTitle,
             double resultTime,
             String userId,
@@ -155,8 +137,6 @@ public class Database {
         CompetitionResult result = new CompetitionResult(competitionTitle, placement, disciplineTitle, userId, resultTime, date);
         results.add(result);
     }
-
-
 
     public int getLatestNameIdNumber(String newUserFullName) {
         String newUserFirstName = newUserFullName.split(" ")[0];

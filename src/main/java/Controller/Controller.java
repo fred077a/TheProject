@@ -21,12 +21,12 @@ public class Controller {
         return database.searchMembers(menuChoice, search);
     }
 
-    public void addResult(Enum disciplineTitle, double resultTime, String userId, LocalDate date) {
-        database.addResult(disciplineTitle, resultTime, date, userId);
+    public void addTrainingResult(Enum disciplineTitle, double resultTime, String userId, LocalDate date) {
+        database.addTrainingResult(disciplineTitle, resultTime, date, userId);
     }
 
-    public void addResult(Enum disciplineTitle, double resultTime, String userId, LocalDate date, String competitionTitle, int placement) {
-        database.addResult(disciplineTitle, resultTime, userId, date, competitionTitle, placement);
+    public void addCompetitionResult(Enum disciplineTitle, double resultTime, String userId, LocalDate date, String competitionTitle, int placement) {
+        database.addCompetitionResult(disciplineTitle, resultTime, userId, date, competitionTitle, placement);
     }
 
     public ArrayList<Result> getTop5(Enum disciplineTitle, boolean isSenior, boolean isCompetition) {

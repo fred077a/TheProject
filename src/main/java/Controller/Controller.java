@@ -1,7 +1,5 @@
 package Controller;
-
 import Data.*;
-
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -44,10 +42,8 @@ public class Controller {
     }
 
     public void saveMemberData() throws FileNotFoundException {
-        if (database.getChangesMade()) {
-            ArrayList<Member> members = database.getMemberList();
-            fileHandler.saveMemberList(members);
-        }
+        ArrayList<Member> members = database.getMemberList();
+        fileHandler.saveMemberList(members);
     }
 
     public Member getMemberFromUid(String uid) {
@@ -75,9 +71,11 @@ public class Controller {
     }
 
     public void saveResults() throws FileNotFoundException {
-        if (database.getChangesMade()) {
-            ArrayList<Result> results = database.getResults();
-            fileHandler.saveResult(results);
-        }
+        ArrayList<Result> results = database.getResults();
+        fileHandler.saveResult(results);
+    }
+
+    public ArrayList<Member> getTeam(boolean isSenior) {
+        return database.getTeam(isSenior);
     }
 }

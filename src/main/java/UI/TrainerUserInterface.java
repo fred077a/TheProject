@@ -1,9 +1,8 @@
 package UI;
-
 import Controller.Controller;
+import Data.CompetitionResult;
 import Data.Member;
 import Data.Result;
-
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -33,7 +32,6 @@ public class TrainerUserInterface {
             System.out.println("5: Se hold");
             System.out.println("6: Log ud");
             int menuChoice = userInterface.getIntInput("Indtast kommando (1-6): ", 1, 7, "Indtast venligst et tal mellem 1-6");
-
             switch (menuChoice) {
                 case 1 -> getCompetitiveMembers();
                 case 2 -> addResult();
@@ -44,6 +42,43 @@ public class TrainerUserInterface {
                 default -> System.out.println("Ugyldig kommando");
             }
         } while (running);
+    }
+
+    public void showTeams() {
+        final String red = "\u001B[31m";
+        final String green = "\u001B[32m";
+        final String yellow = "\u001B[33m";
+        final String blue = "\u001B[34m";
+        final String purple = "\u001B[35m";
+        final String cyan = "\u001B[36m";
+        final String resetText = "\u001B[0m";
+        final String line = "\u2550";
+        boolean isSenior = userInterface.getBoolean("Vil du have senior? (ja/nej): ", "Venligst indtast 'ja' eller 'nej'");
+        ArrayList<Member> team = userInterface.getController().getTeam(isSenior);
+        int longestName = 0;
+        int longestUserId = 0;
+        for (Member member: team) {
+            int nameLength = member.getName().length();
+            if (nameLength > longestName) {
+                longestName = nameLength;
+            }
+            int uidLength = member.getUid().length();
+            if (uidLength > longestUserId) {
+                longestUserId = uidLength;
+            }
+        }
+        System.out.println(isSenior? "Seniorholdet: " : "Juniorholdet");
+        for (Member member: team) {
+            System.out.printf(
+                    red + "Navn: %-" + longestName +"s " + resetText +
+                            green + " Fødselsdag: %-8s " + resetText +
+                            yellow + " Alder: %-3s" + resetText +
+                            blue + " Aktiv: %-3s " + resetText +
+                            cyan + " Bruger-ID: %-" + longestUserId +"s " + resetText +
+                            purple + " Konkurrencesvømmer: %-3s " + resetText + "\n"
+                    , member.getName(), member.getBirthday(), member.getAge(), member.getActive()? "Ja" : "Nej", member.getUid(), member.getCompetitiveStatus()? "Ja" : "Nej");
+        }
+        System.out.println();
     }
 
     public void showTop5() {
@@ -77,9 +112,59 @@ public class TrainerUserInterface {
     }
 
     public void printResults(ArrayList<Result> results, String title) {
-        System.out.println(title);
+        final String red = "\u001B[31m";
+        final String green = "\u001B[32m";
+        final String yellow = "\u001B[33m";
+        final String blue = "\u001B[34m";
+        final String purple = "\u001B[35m";
+        final String cyan = "\u001B[36m";
+        final String resetText = "\u001B[0m";
+        final String bold = "\033[0;1m";
+        System.out.println(bold + title + resetText);
+        int longestUserId = 0;
+        int longestTime = 0;
+        int longestCompetitionTitleLength = 0;
+        int disciplineTitleLength = 0;
+        if (results.size() > 0) {
+            disciplineTitleLength = results.get(0).getDisciplineTitle().toString().length();
+        }
         for (Result result: results) {
-            System.out.println(result);
+            if (result instanceof CompetitionResult) {
+
+            }
+            int userIdLength = result.getUserId().length();
+            if (userIdLength > longestUserId) {
+                longestUserId = userIdLength;
+            }
+            int timeLength = String.valueOf(result.getResultTime()).length();
+            if (timeLength > longestTime) {
+                longestTime = timeLength;
+            }
+            if (result instanceof CompetitionResult) {
+                int competitionTitleLength = ((CompetitionResult) result).getCompetitionTitle().length();
+                if (competitionTitleLength > longestCompetitionTitleLength) {
+                    longestCompetitionTitleLength = competitionTitleLength;
+                }
+            }
+        }
+        for (Result result: results) {
+            if (result instanceof CompetitionResult) {
+                System.out.printf(
+                        red + "BrugerId: %-" + longestUserId +"s " + resetText +
+                                green + " Disciplin: %-" + disciplineTitleLength +"s " + resetText +
+                                yellow + " Tid: %-" + longestTime +"s" + resetText +
+                                blue + "  Dato: %-8s " + resetText +
+                                cyan + " Placering: %-3s" + resetText +
+                                purple + "Stævnenavn: %" + longestCompetitionTitleLength + "s " + resetText + "\n"
+                        , result.getUserId(), result.getDisciplineTitle(), result.getResultTime(), result.getDate().toString(), ((CompetitionResult) result).getPlacement(), ((CompetitionResult) result).getCompetitionTitle());
+            } else {
+                System.out.printf(
+                        red + "BrugerId: %-" + longestUserId +"s " + resetText +
+                                green + " Disciplin: %-12s " + resetText +
+                                yellow + " Tid: %-" + longestTime+2 +"s" + resetText +
+                                blue + "  Dato: %-8s " + resetText + "\n"
+                        , result.getUserId(), result.getDisciplineTitle(), result.getResultTime(), result.getDate().toString());
+            }
         }
         System.out.println();
     }

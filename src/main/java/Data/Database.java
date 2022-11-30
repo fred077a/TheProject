@@ -8,7 +8,6 @@ import java.util.Comparator;
 public class Database {
     private ArrayList<Member> members = new ArrayList<>();
     private ArrayList<Result> results = new ArrayList<>();
-    private boolean changesMade = false;
 
     public void addUser(String fullName, String birthday, boolean active, boolean competitive, int previousPayment ) {
         int latestNameId = getLatestNameIdNumber(fullName);
@@ -99,7 +98,6 @@ public class Database {
             Result result = matchingResults.get(i);
             if (includeMembers(result.getUserId(), top5)) {
                 //if person from result is already in top 5:
-
                 //getting result time and checks if this time is better.
                 double resultTime = result.getResultTime();
                 int index = newTimeBetter(resultTime, top5);
@@ -145,7 +143,6 @@ public class Database {
     public void addResult(Enum disciplineTitle, double resultTime, LocalDate date, String userId) {
         Result result = new Result(disciplineTitle, resultTime, date, userId);
         results.add(result);
-        setChangesMade();
     }
 
     public void addResult(
@@ -157,7 +154,6 @@ public class Database {
             int placement) {
         CompetitionResult result = new CompetitionResult(competitionTitle, placement, disciplineTitle, userId, resultTime, date);
         results.add(result);
-        setChangesMade();
     }
 
 
@@ -282,14 +278,6 @@ public class Database {
         this.results = competitionResultArrayList;
     }
 
-    public boolean getChangesMade() {
-        return changesMade;
-    }
-
-    public void setChangesMade() {
-        this.changesMade = true;
-    }
-
     public Member getMemberFromSearch(String search) {
         Member result = new Member("", "", false, false, "", 0);
         for (Member member: this.members) {
@@ -303,6 +291,18 @@ public class Database {
 
     public void deleteMember(Member deleteMember) {
         members.remove(deleteMember);
-        setChangesMade();
+    }
+
+    public ArrayList<Member> getTeam(boolean isSenior) {
+        ArrayList<Member> team = new ArrayList<>();
+        for (Member member: members) {
+            int age = member.getAge();
+            boolean isCompetitive = member.getCompetitiveStatus();
+            boolean seniorMember = age >= 18;
+            if (seniorMember == isSenior && isCompetitive) {
+                team.add(member);
+            }
+        }
+        return team;
     }
 }

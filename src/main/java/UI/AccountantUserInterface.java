@@ -205,8 +205,4 @@ public class AccountantUserInterface {
         System.exit(0);
     }
 
-
-
-
-
 }

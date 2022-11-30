@@ -23,6 +23,7 @@ public class UserInterface {
 
     public void start() throws FileNotFoundException {
         controller.loadMemberData();
+        controller.loadResults();
         do {
             //Introduction
             System.out.println("Velkommen til Delfinens medlemsdatabase");

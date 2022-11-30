@@ -13,13 +13,14 @@ public class UserInterface {
     private final AccountantUserInterface accountantUserInterface = new AccountantUserInterface(this);
     private Controller controller = new Controller();
 
+    public Scanner getUserInput() {
+        return userInput;
+    }
+
     public Controller getController() {
         return controller;
     }
 
-    public Scanner getUserInput() {
-        return userInput;
-    }
     public void loadData() throws FileNotFoundException {
         controller.loadMemberData();
         controller.loadResults();

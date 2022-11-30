@@ -17,6 +17,7 @@ public class PresidentUserInterface {
     }
 
     public void presidentMenu() throws FileNotFoundException {
+        boolean running = true;
         System.out.println("Du er logget ind som formand.");
         do {
             System.out.println("\nDu har følgende valgmuligheder");
@@ -29,7 +30,7 @@ public class PresidentUserInterface {
             System.out.println("4: Slet et medlem");
             System.out.println("5: Sortér medlemmer");
             System.out.println("6: Søg blandt medlemmer");
-            System.out.println("7: Gem og afslut");
+            System.out.println("7: Log ud");
             int menuChoice = userInterface.getIntInput("Indtast kommando (1-7): ", 1, 8, "Indtast venligst et tal mellem 1-9");
 
             switch (menuChoice) {
@@ -39,10 +40,10 @@ public class PresidentUserInterface {
                 case 4 -> deleteMember();
                 case 5 -> sortMembers();
                 case 6 -> userInterface.searchMembers();
-                case 7 -> userInterface.exitProgram();
+                case 7 -> running = false;
                 default -> System.out.println("Ugyldig kommando");
             }
-        } while (true);
+        } while (running);
     }
 
     public void addMember() throws FileNotFoundException {
@@ -170,21 +171,25 @@ public class PresidentUserInterface {
                 }
                 case 5: {
                     exit = true;
+                    controller.saveMemberData();
                     break;
                 }
                 default:
                     System.out.println("Ugyldigt input");
             }
         } while (exit == false);
-        controller.saveMemberData();
+
     }
 
     public void deleteMember() throws FileNotFoundException {
-        System.out.print("Indtast brugerID på medlemmet der skal fjernes: ");
+        boolean running = true;
+        System.out.print("Indtast brugerID på medlemmet der skal fjernes (Tast 0 for at gå tilbage): ");
         String search = userInput.next();
         Member memberFound = userInterface.getController().getMemberFromUid(search);
         if (memberFound.getUid().equals("")) {
             System.out.println("Ingen medlemmer med bruger-ID " + search);
+        } else if (search.equals("0")) {
+            running = false;
         } else {
             System.out.print("Er du sikker på at slette '" + memberFound.getName() + "'? ('ja' eller 'nej') ");
             do {
@@ -198,7 +203,7 @@ public class PresidentUserInterface {
                 } else {
                     System.out.println("Venligst svar 'ja' eller 'nej'");
                 }
-            } while (true);
+            } while (running);
         }
     }
 

@@ -18,6 +18,7 @@ public class AccountantUserInterface {
     }
 
     public void accountantMenu() throws FileNotFoundException {
+        boolean running = true;
         System.out.println("Du er logget ind som kasserer.");
         do {
             System.out.println("\nDu har følgende valgmuligheder");
@@ -27,16 +28,16 @@ public class AccountantUserInterface {
             System.out.println("1: Se liste af medlemmers kontingenter");
             System.out.println("2: Søg efter bruger"); //from perspective of accountant - also shows payment amount
             System.out.println("3: Kontingentestimat");
-            System.out.println("4: Gem og afslut");
+            System.out.println("4: Log ud");
             int menuChoice = userInterface.getIntInput("Indtast kommando (1-4): ", 1, 5, "Indtast venligst et tal mellem 1-5");
             switch (menuChoice) {
                 case 1 -> printMembersSubscriptions();
                 case 2 -> searchMembersSubscription();
                 case 3 -> totalSubscription();
-                case 4 -> exitProgram();
+                case 4 -> running = false;
                 default -> System.out.println("Ugyldig kommando");
             }
-        } while (true);
+        } while (running);
     }
 
     public int getInput(String text) {

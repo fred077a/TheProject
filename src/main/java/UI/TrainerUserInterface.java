@@ -19,7 +19,7 @@ public class TrainerUserInterface {
     }
 
     public void trainerMenu() throws FileNotFoundException {
-        userInterface.getController().loadResults();
+        boolean running = true;
         System.out.println("Du er logget ind som træner.");
         do {
             System.out.println("\nDu har følgende valgmuligheder");
@@ -31,7 +31,7 @@ public class TrainerUserInterface {
             System.out.println("3: Se liste af top 5 svømmere");
             System.out.println("4: Søg");
             System.out.println("5: Se hold");
-            System.out.println("6: Gem og afslut");
+            System.out.println("6: Log ud");
             int menuChoice = userInterface.getIntInput("Indtast kommando (1-6): ", 1, 7, "Indtast venligst et tal mellem 1-6");
 
             switch (menuChoice) {
@@ -39,11 +39,11 @@ public class TrainerUserInterface {
                 case 2 -> addResult();
                 case 3 -> showTop5();
                 case 4 -> userInterface.searchMembers();
-                //case 5 ->
-                case 6 -> userInterface.exitProgram();
+                case 5 -> showTeams();
+                case 6 -> running = false;
                 default -> System.out.println("Ugyldig kommando");
             }
-        } while (true);
+        } while (running);
     }
 
     public void showTop5() {

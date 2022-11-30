@@ -13,7 +13,6 @@ public class FileHandler {
     private File file = new File("data/members.csv");
     private File file2 = new File("data/results.csv");
 
-
     public void saveMemberList(ArrayList<Member> members) throws FileNotFoundException {
         PrintStream output = new PrintStream(this.file);
         for (Member member: members) {
@@ -33,7 +32,6 @@ public class FileHandler {
         output.flush();
         output.close();
     }
-
 
     public ArrayList<Member> loadMemberList() throws FileNotFoundException {
         Scanner scanner = new Scanner(this.file);

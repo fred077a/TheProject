@@ -109,8 +109,6 @@ public class PresidentUserInterface {
         }
     }
 
-
-
     public void printMemberMenu() {
         Controller controller = userInterface.getController();
         ArrayList<Member> members = controller.getMembers();

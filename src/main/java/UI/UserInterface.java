@@ -26,6 +26,17 @@ public class UserInterface {
         controller.loadResults();
         do {
             //Introduction
+            //Print delfin picture
+            System.out.println("\u001B[0m\n" +
+                    "\u001B[0m\n" +
+                    "            \u001B[1;30m▄\u001B[46m▀\u001B[34m▄\u001B[30;40m█\u001B[0m        \u001B[1;30m█▄\u001B[0m    \u001B[1;30m▄█\u001B[0m\n" +
+                    "           \u001B[1;30m▄\u001B[46m▀\u001B[34m▄\u001B[40m█\u001B[30;44m▀\u001B[40m▄\u001B[0m       \u001B[1;30m▀\u001B[5;44m▄▀\u001B[0;1;30m▄▄\u001B[5;44m▀\u001B[0;1;34m█\u001B[30m█\u001B[0m\n" +
+                    "       \u001B[1;30m▄\u001B[46m▀▀▀\u001B[34;40m████\u001B[44m▄\u001B[30m▀\u001B[40m▄▄\u001B[0m       \u001B[1;30m▀\u001B[5;44m▄\u001B[0;1;34;44m▄\u001B[30m▄\u001B[40m▀\u001B[0m\n" +
+                    "    \u001B[1;30m▄▄\u001B[46m▀\u001B[34m▄\u001B[40m▀██████████\u001B[5;30;44m▀▀\u001B[0;1;30;46m▀▀\u001B[40m▄▄▄\u001B[5;44m▀\u001B[0;1;34;44m▀\u001B[5;30m▄\u001B[0;1;30m▀\u001B[0m\n" +
+                    "   \u001B[1;30m█\u001B[37;46m▄▄\u001B[5;34;47m▀▀▀\u001B[0;1;34m█\u001B[44m▀\u001B[5;30m▄\u001B[0;1;34m████\u001B[5;30;44m▄\u001B[0;1;34m████████\u001B[30;44m▄▄\u001B[40m▀\u001B[0m\n" +
+                    "    \u001B[1;30m▀▀▀▀▀\u001B[5;47m▄\u001B[0;1;30;47m▄▄\u001B[40m█\u001B[34m█\u001B[0;34m█\u001B[1;30m█\u001B[5;44m▄▄▄▄▄▄\u001B[0;1;30m▀▀▀\u001B[0m\n" +
+                    "             \u001B[1;30m▀\u001B[44m▄\u001B[40m▀\u001B[0m\n");
+
             System.out.println("Velkommen til Delfinens medlemsdatabase");
             System.out.println("Du kan logge ind som følgende:");
             System.out.println("1 - Formand");
@@ -104,6 +115,7 @@ public class UserInterface {
     }
 
     //Inputs
+
     public int getIntInput(String text, int min, int max, String onError) {
         Scanner scanner = new Scanner(System.in);
         do {

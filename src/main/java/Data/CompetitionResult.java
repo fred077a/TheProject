@@ -29,5 +29,4 @@ public class CompetitionResult extends Result {
                 "', Placering: '" + this.placement +
                 "', Stævnenavn: '" + this.competitionTitle + "'";
     }
-
 }

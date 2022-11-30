@@ -1,5 +1,4 @@
 package Data;
-import java.util.List;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,12 +8,11 @@ public class Database {
     private ArrayList<Member> members = new ArrayList<>();
     private ArrayList<Result> results = new ArrayList<>();
 
-    public void addUser(String fullName, String birthday, boolean active, boolean competitive, int previousPayment ) {
+    public void createUser(String fullName, String birthday, boolean active, boolean competitive, int previousPayment ) {
         int latestNameId = getLatestNameIdNumber(fullName);
         String newUserFirstName = fullName.split(" ")[0];
         String uid = newUserFirstName.toLowerCase() + (latestNameId + 1);
         Member member = new Member( fullName,  birthday,  active,  competitive,  uid,  previousPayment);
-
         this.members.add(member);
     }
 

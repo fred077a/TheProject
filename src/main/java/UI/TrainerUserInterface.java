@@ -91,7 +91,6 @@ public class TrainerUserInterface {
         switch (resultatType) {
             case 1 -> top5Training();
             case 2 -> top5Compitition();
-
         }
     }
 
@@ -273,7 +272,7 @@ public class TrainerUserInterface {
                 //Date
                 LocalDate date = getDate();
 
-                controller.addResult(disciplinetitle, timeResult, userId, date); //String disciplineTitle, double resultTime, String userId, LocalDate date
+                controller.addTrainingResult(disciplinetitle, timeResult, userId, date); //String disciplineTitle, double resultTime, String userId, LocalDate date
                 controller.saveResults();
                 break;
             }

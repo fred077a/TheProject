@@ -9,7 +9,7 @@ public class Controller {
     private FileHandler fileHandler = new FileHandler();
 
     public void createUser(String fullName, String birthday, boolean active, boolean competitive, int previousPayment) throws FileNotFoundException {
-        database.addUser(fullName, birthday, active, competitive, previousPayment);
+        database.createUser(fullName, birthday, active, competitive, previousPayment);
         saveMemberData();
     }
 
@@ -58,7 +58,6 @@ public class Controller {
         ArrayList<Member> members = fileHandler.loadMemberList();
         database.setMemberArrayList(members);
     }
-
 
     public void deleteMember(Member deleteMember) throws FileNotFoundException {
         database.deleteMember(deleteMember);

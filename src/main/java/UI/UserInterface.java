@@ -20,10 +20,12 @@ public class UserInterface {
     public Scanner getUserInput() {
         return userInput;
     }
-
-    public void start() throws FileNotFoundException {
+    public void loadData() throws FileNotFoundException {
         controller.loadMemberData();
         controller.loadResults();
+    }
+    public void start() throws FileNotFoundException {
+        loadData();
         do {
             //Introduction
             //Print delfin picture
@@ -76,7 +78,8 @@ public class UserInterface {
         System.exit(0);
     }
 
-    public String getSearchCriteria(int menuChoice) {
+    public String getSearchCriteria(int menuChoice, String text) {
+        System.out.println(text);
         do {
             Scanner scanner = new Scanner(System.in);
             try {
@@ -84,7 +87,7 @@ public class UserInterface {
                     int search = scanner.nextInt();
                     return String.valueOf(search);
                 } else {
-                    return scanner.next();
+                    return scanner.next().toLowerCase();
                 }
             } catch (Exception exception) {
                 System.out.println("Fejl, ugyldigt søgekriterie");
@@ -104,8 +107,7 @@ public class UserInterface {
         //menu choice
         int menuChoice = getIntInput("Indtast kommando (1-5): ", 1, 5, "Indtast venligst et tal mellem 1 og 5");
         if (menuChoice != 5) {
-            System.out.print("Indtast søgeord: ");
-            String search = getSearchCriteria(menuChoice);
+            String search = getSearchCriteria(menuChoice, "Indtast søgeord: ");
 
             ArrayList<Member> members = controller.searchMembers(menuChoice, search);
             for (Member member: members) {
@@ -137,7 +139,7 @@ public class UserInterface {
             try {
                 System.out.print(text);
                 double result = scanner.nextDouble();
-                if (min >= result && result < max) {
+                if (min <= result && result < max) {
                     return result;
                 }
             } catch (Exception exception) {

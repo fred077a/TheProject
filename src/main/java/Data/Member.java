@@ -5,15 +5,11 @@ import java.time.Period;
 
 public class Member {
     private String fullName;
-    private String birthday; //make sure it has a specific amount of characters fx. 010199-1234
+    private String birthday;
     private boolean active;
     private boolean competitive;
     private String uid;
     private int previousPayment;
-    //todo new class Subscription
-
-
-
 
     public Member(String fullName, String birthday, boolean active, boolean competitive, String uid, int previousPayment) {
         this.fullName = fullName;

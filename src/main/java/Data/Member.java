@@ -67,8 +67,8 @@ public class Member {
         return age;
     }
 
-    public void setBirthday(String cpr) {
-        this.birthday = cpr;
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = String.valueOf(birthday);
     }
 
     public boolean getActive() {

@@ -7,6 +7,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
+    //todo - formand - redigere - dato - crasher hvis man ikke skiver det rigtigt
+
+
+
 public class UserInterface {
     private Scanner userInput = new Scanner(System.in);
     private final TrainerUserInterface trainerUserInterface = new TrainerUserInterface(this);

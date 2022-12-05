@@ -172,7 +172,9 @@ public class PresidentUserInterface {
                     break;
                 }
                 case 2: {
-                    String newBirthDay = userInterface.getStringInput("Du vil skifte " + memberToBeEdited.getBirthday() + " til: ", 8, 9, "Ugyldigt input\nIndtast venligst efter det rigtige format (24122022)");
+                    //String newBirthDay = userInterface.getStringInput("Du vil skifte " + memberToBeEdited.getBirthday() + " til: ", 8, 9, "Ugyldigt input\nIndtast venligst efter det rigtige format (24122022)");
+                    LocalDate newBirthDay = getDate();
+                    memberToBeEdited.setBirthday(newBirthDay);
                     break;
                 }
                 case 3: {

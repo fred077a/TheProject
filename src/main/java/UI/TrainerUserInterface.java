@@ -173,8 +173,8 @@ public class TrainerUserInterface {
             } else {
                 System.out.printf(
                         red + "BrugerId: %-" + longestUserId +"s " + resetText +
-                                green + " Disciplin: %-12s " + resetText +
-                                yellow + " Tid: %-" + longestTime+2 +"s" + resetText +
+                                green + " Disciplin: %-8s " + resetText +
+                                yellow + " Tid: %-" + 2 +"s" + resetText +
                                 blue + "  Dato: %-8s " + resetText + "\n"
                         , result.getUserId(), result.getDisciplineTitle(), result.getResultTime(), result.getDate().toString());
             }

@@ -3,6 +3,7 @@ import Controller.Controller;
 import Data.Member;
 
 import java.io.FileNotFoundException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -50,6 +51,7 @@ public class UserInterface {
                 case 2 -> accountantUserInterface.accountantMenu();
                 case 3 -> trainerUserInterface.trainerMenu();
                 default -> System.out.println("Ugyldig valgmulighed");
+
             }
         } while (true);
     }
@@ -129,6 +131,7 @@ public class UserInterface {
                 }
             } catch (Exception exception) {
                 System.out.println(onError);
+                return 0;
             }
         } while (true);
     }

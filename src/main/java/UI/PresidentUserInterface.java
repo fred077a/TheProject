@@ -4,6 +4,7 @@ import Controller.Controller;
 import Data.Member;
 
 import java.io.FileNotFoundException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -212,8 +213,8 @@ public class PresidentUserInterface {
 
                 }
                 case 5: {
-                    exit = true;
                     controller.saveMemberData();
+                    exit = true;
                     break;
                 }
                 default:
@@ -279,4 +280,28 @@ public class PresidentUserInterface {
             printMembers();
         }
     };
+
+    public LocalDate getDate() {
+        System.out.print("Venligst indtast dato (ddMMyyyy): ");
+        LocalDate date;
+        do {
+            String dateInput = new Scanner(System.in).next();
+            boolean amountCharactersCorrect = dateInput.length() == 8;
+            if (amountCharactersCorrect) {
+                try {
+                    int year = Integer.parseInt(dateInput.substring(4, 8)); //24 12 1900
+                    int month = Integer.parseInt(dateInput.substring(2, 4));
+                    int day = Integer.parseInt(dateInput.substring(0, 2));
+                    date = LocalDate.of(year, month, day);
+                    break;
+                } catch (Exception ex) {
+                    System.out.println("Datoen er ugyldig");
+                    System.out.print("Indtast korrekt dato: ");
+                }
+            } else {
+                System.out.println("Indtast det rigtige format (24122022)");
+            }
+        } while (true);
+        return date;
+    }
 }

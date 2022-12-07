@@ -5,6 +5,7 @@ import Data.Member;
 
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -52,7 +53,21 @@ public class PresidentUserInterface {
         String name = userInterface.getStringInput("Venligst indtast fulde navn: ", 0, 100, "Fejl, prøv igen.");
 
         //birthday
-        String birthday = userInterface.getStringInput("Venligst indtast brugerens fødselsdag (24122022): ", 8, 9, "Indtast venligst dato i rigtigt format (ddMMyyyy)");
+        String birthday = null;
+        boolean running = true;
+        do {
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                birthday = userInterface.getStringInput("Venligst indtast brugerens fødselsdag (24-12-2022): ", 8, 9, "Indtast venligst dato i rigtigt format (dd-MM-yyyy)");
+
+                LocalDate localBirthday = LocalDate.parse(birthday);
+                running = false;
+                break;
+            } catch (Exception e) {
+                System.out.println("Der skete en fejl, prøv igen");
+            }
+        } while(running);
+
 
         //active member or not. Making sure the answer is suitable. Same for competitive member.
         boolean active = userInterface.getBoolean("Er brugeren aktiv? ('ja'/'nej'): ", "Venligst indtast 'ja' eller 'nej");
@@ -71,7 +86,7 @@ public class PresidentUserInterface {
             } catch (Exception ex) {
 
             }
-        } while(true);
+        } while (true);
 
         userInterface.getController().createUser(name, birthday, active, competitive, previousPayment);
     }
@@ -88,7 +103,7 @@ public class PresidentUserInterface {
         ArrayList<Member> members = userInterface.getController().getMembers();
         int longestName = 0;
         int longestUserId = 0;
-        for (Member member: members) {
+        for (Member member : members) {
             int nameLength = member.getName().length();
             if (nameLength > longestName) {
                 longestName = nameLength;
@@ -98,15 +113,15 @@ public class PresidentUserInterface {
                 longestUserId = uidLength;
             }
         }
-        for (Member member: members) {
+        for (Member member : members) {
             System.out.printf(
-                    red + "Navn: %-" + longestName +"s " + resetText +
+                    red + "Navn: %-" + longestName + "s " + resetText +
                             green + " Fødselsdag: %-8s " + resetText +
-                    yellow + " Alder: %-3s" + resetText +
-                    blue + " Aktiv: %-3s " + resetText +
-                    cyan + " Bruger-ID: %-" + longestUserId +"s " + resetText +
-                    purple + " Konkurrencesvømmer: %-3s " + resetText + "\n"
-                    , member.getName(), member.getBirthday(), member.getAge(), member.getActive()? "Ja" : "Nej", member.getUid(), member.getCompetitiveStatus()? "Ja" : "Nej");
+                            yellow + " Alder: %-3s" + resetText +
+                            blue + " Aktiv: %-3s " + resetText +
+                            cyan + " Bruger-ID: %-" + longestUserId + "s " + resetText +
+                            purple + " Konkurrencesvømmer: %-3s " + resetText + "\n"
+                    , member.getName(), member.getBirthday(), member.getAge(), member.getActive() ? "Ja" : "Nej", member.getUid(), member.getCompetitiveStatus() ? "Ja" : "Nej");
         }
     }
 
@@ -122,7 +137,7 @@ public class PresidentUserInterface {
         final String resetText = "\u001B[0m";
         int longestName = 0;
         int longestUserId = 0;
-        for (Member member: members) {
+        for (Member member : members) {
             int nameLength = member.getName().length();
             if (nameLength > longestName) {
                 longestName = nameLength;
@@ -134,13 +149,13 @@ public class PresidentUserInterface {
         }
         for (int i = 0; i < members.size(); i++) {
             System.out.printf(
-                    i+1 + ": " + red + "Navn: %-" + longestName +"s " + resetText +
+                    i + 1 + ": " + red + "Navn: %-" + longestName + "s " + resetText +
                             green + " Fødselsdag: %-8s " + resetText +
                             yellow + " Alder: %-3s" + resetText +
                             blue + " Aktiv: %-3s " + resetText +
-                            cyan + " Bruger-ID: %-" + longestUserId +"s " + resetText +
+                            cyan + " Bruger-ID: %-" + longestUserId + "s " + resetText +
                             purple + " Konkurrencesvømmer: %-3s " + resetText + "\n"
-                    ,members.get(i).getName(), members.get(i).getBirthday(), members.get(i).getAge(), members.get(i).getActive()? "Ja" : "Nej", members.get(i).getUid(), members.get(i).getCompetitiveStatus()? "Ja" : "Nej");
+                    , members.get(i).getName(), members.get(i).getBirthday(), members.get(i).getAge(), members.get(i).getActive() ? "Ja" : "Nej", members.get(i).getUid(), members.get(i).getCompetitiveStatus() ? "Ja" : "Nej");
         }
     }
 
@@ -155,13 +170,13 @@ public class PresidentUserInterface {
         boolean exit = false;
         do {
             System.out.println("""
-                        Hvad skal redigeres?
-                        1: Navn
-                        2: Fødselsdag
-                        3: Aktiv / Passiv svømmer
-                        4: Konkurrencesvømmer / Fritidsvømmer
-                        5: Afslut redigering af svømmer
-                        """);
+                    Hvad skal redigeres?
+                    1: Navn
+                    2: Fødselsdag
+                    3: Aktiv / Passiv svømmer
+                    4: Konkurrencesvømmer / Fritidsvømmer
+                    5: Afslut redigering af svømmer
+                    """);
             int menuChoice = userInput.nextInt();
             userInput.nextLine(); //scannerbug
             switch (menuChoice) {
@@ -281,7 +296,9 @@ public class PresidentUserInterface {
             userInterface.getController().sortMembers(menuChoice);
             printMembers();
         }
-    };
+    }
+
+    ;
 
     public LocalDate getDate() {
         System.out.print("Venligst indtast dato (ddMMyyyy): ");

@@ -1,4 +1,4 @@
-import UI.UserInterface;
+import kodeklubben.delfinen.ui.UserInterface;
 import org.junit.Test;
 
 public class UserInterfaceTest {

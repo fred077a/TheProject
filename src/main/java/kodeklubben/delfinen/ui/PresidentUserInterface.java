@@ -125,6 +125,7 @@ public class PresidentUserInterface {
         }
     }
 
+    // Prints in editMember(), shows index number for each member so user can pick whom to edit
     public void printMemberMenu() {
         Controller controller = userInterface.getController();
         ArrayList<Member> members = controller.getMembers();

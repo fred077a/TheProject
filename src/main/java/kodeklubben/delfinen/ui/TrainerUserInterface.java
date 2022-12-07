@@ -112,16 +112,16 @@ public class TrainerUserInterface {
 
     public void top5Compitition() {
         System.out.println("Top5 svømmetider for senior");
-        printResults(userInterface.getController().getTop5(DisciplineTitles.BUTTERFLY, true, true), "Butterfly: ");
-        printResults(userInterface.getController().getTop5(DisciplineTitles.CRAWL, true, true), "Crawl: ");
-        printResults(userInterface.getController().getTop5(DisciplineTitles.BACKCRAWL, true, true), "Backcrawl: ");
-        printResults(userInterface.getController().getTop5(DisciplineTitles.BREASTSTROKE, true, true), "Brystsvømning: ");
+        printResults(getTop5(DisciplineTitles.BUTTERFLY, true, true), "Butterfly: ");
+        printResults(getTop5(DisciplineTitles.CRAWL, true, true), "Crawl: ");
+        printResults(getTop5(DisciplineTitles.BACKCRAWL, true, true), "Backcrawl: ");
+        printResults(getTop5(DisciplineTitles.BREASTSTROKE, true, true), "Brystsvømning: ");
 
         System.out.println("Top5 svømmetider for juinor");
-        printResults(userInterface.getController().getTop5(DisciplineTitles.BUTTERFLY, false, true), "Butterfly: ");
-        printResults(userInterface.getController().getTop5(DisciplineTitles.CRAWL, false, true), "Crawl: ");
-        printResults(userInterface.getController().getTop5(DisciplineTitles.BACKCRAWL, false, true), "Backcrawl: ");
-        printResults(userInterface.getController().getTop5(DisciplineTitles.BREASTSTROKE, false, true), "Brystsvømning: ");
+        printResults(getTop5(DisciplineTitles.BUTTERFLY, false, true), "Butterfly: ");
+        printResults(getTop5(DisciplineTitles.CRAWL, false, true), "Crawl: ");
+        printResults(getTop5(DisciplineTitles.BACKCRAWL, false, true), "Backcrawl: ");
+        printResults(getTop5(DisciplineTitles.BREASTSTROKE, false, true), "Brystsvømning: ");
     }
 
     public void printResults(ArrayList<Result> results, String title) {

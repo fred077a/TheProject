@@ -35,7 +35,7 @@ public class TrainerUserInterface {
             switch (menuChoice) {
                 case 1 -> getCompetitiveMembers();
                 case 2 -> addResult();
-                case 3 -> showTop5Menu();
+                case 3 -> Top5Menu();
                 case 4 -> userInterface.searchMembers();
                 case 5 -> showTeams();
                 case 6 -> running = false;
@@ -81,7 +81,7 @@ public class TrainerUserInterface {
         System.out.println();
     }
 
-    public void showTop5Menu() {
+    public void Top5Menu() {
         //Vælg mellem træningResultat eller KonkuranceResultat
         System.out.println("Vælg hvad du vil se en top5 for");
         System.out.println("1: Top 5 svømmetider i træning");
@@ -284,5 +284,55 @@ public class TrainerUserInterface {
         for (Member member : members) {
             System.out.println(member);
         }
+    }
+
+    public ArrayList<Result> getTop5(Enum disciplineTitle, boolean isSenior, boolean isCompetition) {
+        Controller controller = userInterface.getController();
+        ArrayList<Result> matchingResults = new ArrayList<Result>();
+        ArrayList<Result> results = controller.getResults();
+        //finds matches for discipline
+        for (Result result: results) {
+            String userId = result.getUserId();
+            int index = controller.findMemberIndex(userId);
+            if (index != -1) {
+                int age = controller.getMembers().get(index).getAge();
+                boolean senior =  age >= 18;
+                boolean disciplineMatch = result.getDisciplineTitle().equals(disciplineTitle);
+                boolean competitionResult = result instanceof CompetitionResult;
+                if (disciplineMatch && isSenior == senior && isCompetition == competitionResult) {
+                    matchingResults.add(result);
+                }
+            }
+        }
+        //making top5 list
+        ArrayList<Result> top5 = new ArrayList<>();
+
+        //runs through the matches AKA all relevant results (same discipline)
+        for (int i = 0; i < matchingResults.size(); i++) {
+            Result result = matchingResults.get(i);
+            if (controller.listIncludesMembers(result.getUserId(), top5)) {
+                //if person from result is already in top 5:
+                //getting result time and checks if this time is better.
+                double resultTime = result.getResultTime();
+                int index = controller.searchBetterResult(resultTime, top5);
+                if (index != -1) {
+                    //result is better and replaces old
+                    //System.out.println("Found" + top5.get(index));
+                    top5.set(index, result);
+                }
+            } else {
+                top5.add(matchingResults.get(i));
+            }
+        }
+
+        //sorts the top 5
+        Collections.sort(top5, new Comparator<Result>() {
+            @Override
+            public int compare(Result r1, Result r2) {
+                return String.valueOf(r1.getResultTime()).compareTo(String.valueOf(r2.getResultTime()));
+            }
+        });
+
+        return new ArrayList(top5.subList(0, top5.size() <= 5? top5.size() : 5));
     }
 }

@@ -1,7 +1,7 @@
-package UI;
+package kodeklubben.delfinen.ui;
 
-import Controller.Controller;
-import Data.Member;
+import kodeklubben.delfinen.controller.Controller;
+import kodeklubben.delfinen.data.Member;
 
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
@@ -18,7 +18,7 @@ public class PresidentUserInterface {
         this.userInput = this.userInterface.getUserInput();
     }
 
-    public void presidentMenu() throws FileNotFoundException {
+    public void presidentMenu() {
         boolean running = true;
         System.out.println("Du er logget ind som formand.");
         do {
@@ -48,25 +48,25 @@ public class PresidentUserInterface {
         } while (running);
     }
 
-    public void addMember() throws FileNotFoundException {
+    public void addMember() {
         //name
         String name = userInterface.getStringInput("Venligst indtast fulde navn: ", 0, 100, "Fejl, prøv igen.");
 
         //birthday
         String birthday = null;
-        boolean running = true;
         do {
-            try {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                birthday = userInterface.getStringInput("Venligst indtast brugerens fødselsdag (24-12-2022): ", 8, 9, "Indtast venligst dato i rigtigt format (dd-MM-yyyy)");
-
-                LocalDate localBirthday = LocalDate.parse(birthday);
-                running = false;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
+            birthday = userInterface.getStringInput("Venligst indtast brugerens fødselsdag (24122022): ", 8, 9, "Indtast venligst dato i rigtigt format (ddMMyyyy)");
+            if (
+                    Integer.parseInt(birthday.substring(0, 2)) < 32 &&
+                    Integer.parseInt(birthday.substring(2, 4)) <= 12 &&
+                    Integer.parseInt(birthday.substring(4, 8)) <= LocalDate.now().getYear()
+            ) {
                 break;
-            } catch (Exception e) {
-                System.out.println("Der skete en fejl, prøv igen");
+            } else {
+                System.out.println("Ugyldig fødselsdag, prøv venligst igen.");
             }
-        } while(running);
+        } while (true);
 
 
         //active member or not. Making sure the answer is suitable. Same for competitive member.
@@ -160,7 +160,7 @@ public class PresidentUserInterface {
         }
     }
 
-    public void editMember() throws FileNotFoundException {
+    public void editMember() {
         printMemberMenu();
         System.out.print("Hvilket medlem skal redigeres: ");
         int memberNumber = userInput.nextInt();
@@ -189,7 +189,7 @@ public class PresidentUserInterface {
                 }
                 case 2: {
                     //String newBirthDay = userInterface.getStringInput("Du vil skifte " + memberToBeEdited.getBirthday() + " til: ", 8, 9, "Ugyldigt input\nIndtast venligst efter det rigtige format (24122022)");
-                    LocalDate newBirthDay = getDate();
+                    LocalDate newBirthDay = userInterface.getDate();
                     memberToBeEdited.setBirthday(newBirthDay);
                     break;
                 }
@@ -242,7 +242,7 @@ public class PresidentUserInterface {
 
     }
 
-    public void deleteMember() throws FileNotFoundException {
+    public void deleteMember() {
         boolean running = true;
         System.out.print("Indtast brugerID på medlemmet der skal fjernes (Tast 0 for at gå tilbage): ");
         String search = userInput.next();
@@ -297,31 +297,5 @@ public class PresidentUserInterface {
             userInterface.getController().sortMembers(menuChoice);
             printMembers();
         }
-    }
-
-    ;
-
-    public LocalDate getDate() {
-        System.out.print("Venligst indtast dato (ddMMyyyy): ");
-        LocalDate date;
-        do {
-            String dateInput = new Scanner(System.in).next();
-            boolean amountCharactersCorrect = dateInput.length() == 8;
-            if (amountCharactersCorrect) {
-                try {
-                    int year = Integer.parseInt(dateInput.substring(4, 8)); //24 12 1900
-                    int month = Integer.parseInt(dateInput.substring(2, 4));
-                    int day = Integer.parseInt(dateInput.substring(0, 2));
-                    date = LocalDate.of(year, month, day);
-                    break;
-                } catch (Exception ex) {
-                    System.out.println("Datoen er ugyldig");
-                    System.out.print("Indtast korrekt dato: ");
-                }
-            } else {
-                System.out.println("Indtast det rigtige format (24122022)");
-            }
-        } while (true);
-        return date;
     }
 }

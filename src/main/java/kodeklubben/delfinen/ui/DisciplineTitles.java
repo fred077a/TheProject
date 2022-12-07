@@ -1,4 +1,4 @@
-package UI;
+package kodeklubben.delfinen.ui;
 
 public enum DisciplineTitles {
     BUTTERFLY,

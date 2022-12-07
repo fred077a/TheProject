@@ -1,7 +1,7 @@
-package UI;
+package kodeklubben.delfinen.ui;
 
-import Controller.Controller;
-import Data.Member;
+import kodeklubben.delfinen.controller.Controller;
+import kodeklubben.delfinen.data.Member;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ public class AccountantUserInterface {
         this.userInput = this.userInterface.getUserInput();
     }
 
-    public void accountantMenu() throws FileNotFoundException {
+    public void accountantMenu() {
         boolean running = true;
         System.out.println("Du er logget ind som kasserer.");
         do {

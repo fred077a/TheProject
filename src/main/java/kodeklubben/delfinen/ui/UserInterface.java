@@ -1,6 +1,6 @@
-package UI;
-import Controller.Controller;
-import Data.Member;
+package kodeklubben.delfinen.ui;
+import kodeklubben.delfinen.controller.Controller;
+import kodeklubben.delfinen.data.Member;
 
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
@@ -8,16 +8,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-    //todo - formand - redigere - dato - crasher hvis man ikke skiver det rigtigt
-
-
-
 public class UserInterface {
     private Scanner userInput = new Scanner(System.in);
     private final TrainerUserInterface trainerUserInterface = new TrainerUserInterface(this);
     private final PresidentUserInterface presidentUserInterface = new PresidentUserInterface(this);
     private final AccountantUserInterface accountantUserInterface = new AccountantUserInterface(this);
-    private Controller controller = new Controller();
+    private final Controller controller = new Controller();
 
     public Controller getController() {
         return controller;
@@ -26,11 +22,13 @@ public class UserInterface {
     public Scanner getUserInput() {
         return userInput;
     }
-    public void loadData() throws FileNotFoundException {
+
+    public void loadData() {
         controller.loadMemberData();
         controller.loadResults();
     }
-    public void start() throws FileNotFoundException {
+    
+    public void start() {
         loadData();
         do {
             //Introduction
@@ -79,7 +77,7 @@ public class UserInterface {
         return userId;
     }
 
-    public void exitProgram() throws FileNotFoundException {
+    public void exitProgram() {
         controller.saveMemberData();
         controller.saveResults();
         System.exit(0);
@@ -121,6 +119,30 @@ public class UserInterface {
                 System.out.println(member);
             }
         }
+    }
+
+    public LocalDate getDate() {
+        System.out.print("Venligst indtast dato (ddMMyyyy): ");
+        LocalDate date;
+        do {
+            String dateInput = new Scanner(System.in).next();
+            boolean amountCharactersCorrect = dateInput.length() == 8;
+            if (amountCharactersCorrect) {
+                try {
+                    int year = Integer.parseInt(dateInput.substring(4, 8)); //24 12 1900
+                    int month = Integer.parseInt(dateInput.substring(2, 4));
+                    int day = Integer.parseInt(dateInput.substring(0, 2));
+                    date = LocalDate.of(year, month, day);
+                    break;
+                } catch (Exception ex) {
+                    System.out.println("Datoen er ugyldig");
+                    System.out.print("Indtast korrekt dato: ");
+                }
+            } else {
+                System.out.println("Indtast det rigtige format (24122022)");
+            }
+        } while (true);
+        return date;
     }
 
     //Inputs

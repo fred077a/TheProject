@@ -1,4 +1,6 @@
-import UI.UserInterface;
+package kodeklubben.delfinen;
+
+import kodeklubben.delfinen.ui.UserInterface;
 
 import java.io.FileNotFoundException;
 

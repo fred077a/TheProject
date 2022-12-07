@@ -1,4 +1,4 @@
-package Data;
+package kodeklubben.delfinen.data;
 
 import java.time.LocalDate;
 import java.time.Period;

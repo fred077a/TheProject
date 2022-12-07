@@ -1,11 +1,13 @@
-package UI;
-import Controller.Controller;
-import Data.CompetitionResult;
-import Data.Member;
-import Data.Result;
+package kodeklubben.delfinen.ui;
+import kodeklubben.delfinen.controller.Controller;
+import kodeklubben.delfinen.data.CompetitionResult;
+import kodeklubben.delfinen.data.Member;
+import kodeklubben.delfinen.data.Result;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class TrainerUserInterface {
@@ -17,7 +19,7 @@ public class TrainerUserInterface {
         this.userInput = this.userInterface.getUserInput();
     }
 
-    public void trainerMenu() throws FileNotFoundException {
+    public void trainerMenu() {
         boolean running = true;
         System.out.println("Du er logget ind som træner.");
         do {
@@ -96,18 +98,16 @@ public class TrainerUserInterface {
 
     public void top5Training() {
         System.out.println("Top5 svømmetider for senior");
-        printResults(userInterface.getController().getTop5(DisciplineTitles.BUTTERFLY, true, false), "Butterfly: ");
-        printResults(userInterface.getController().getTop5(DisciplineTitles.CRAWL, true, false), "Crawl: ");
-        printResults(userInterface.getController().getTop5(DisciplineTitles.BACKCRAWL, true, false), "Backcrawl: ");
-        printResults(userInterface.getController().getTop5(DisciplineTitles.BREASTSTROKE, true, false), "Brystsvømning: ");
+        printResults(getTop5(DisciplineTitles.BUTTERFLY, true, false), "Butterfly: ");
+        printResults(getTop5(DisciplineTitles.CRAWL, true, false), "Crawl: ");
+        printResults(getTop5(DisciplineTitles.BACKCRAWL, true, false), "Backcrawl: ");
+        printResults(getTop5(DisciplineTitles.BREASTSTROKE, true, false), "Brystsvømning: ");
 
         System.out.println("Top5 svømmetider for juinor");
-        printResults(userInterface.getController().getTop5(DisciplineTitles.BUTTERFLY, false, false), "Butterfly: ");
-        printResults(userInterface.getController().getTop5(DisciplineTitles.CRAWL, false, false), "Crawl: ");
-        printResults(userInterface.getController().getTop5(DisciplineTitles.BACKCRAWL, false, false), "Backcrawl: ");
-        printResults(userInterface.getController().getTop5(DisciplineTitles.BREASTSTROKE, false, false), "Brystsvømning: ");
-
-
+        printResults(getTop5(DisciplineTitles.BUTTERFLY, false, false), "Butterfly: ");
+        printResults(getTop5(DisciplineTitles.CRAWL, false, false), "Crawl: ");
+        printResults(getTop5(DisciplineTitles.BACKCRAWL, false, false), "Backcrawl: ");
+        printResults(getTop5(DisciplineTitles.BREASTSTROKE, false, false), "Brystsvømning: ");
     }
 
     public void top5Compitition() {
@@ -206,31 +206,7 @@ public class TrainerUserInterface {
         return disciplinetitle;
     }
 
-    public LocalDate getDate() {
-        System.out.print("Venligst indtast dato (ddMMyyyy): ");
-        LocalDate date;
-        do {
-            String dateInput = new Scanner(System.in).next();
-            boolean amountCharactersCorrect = dateInput.length() == 8;
-            if (amountCharactersCorrect) {
-                try {
-                    int year = Integer.parseInt(dateInput.substring(4, 8)); //24 12 1900
-                    int month = Integer.parseInt(dateInput.substring(2, 4));
-                    int day = Integer.parseInt(dateInput.substring(0, 2));
-                    date = LocalDate.of(year, month, day);
-                    break;
-                } catch (Exception ex) {
-                    System.out.println("Datoen er ugyldig");
-                    System.out.print("Indtast korrekt dato: ");
-                }
-            } else {
-                System.out.println("Indtast det rigtige format (24122022)");
-            }
-        } while (true);
-        return date;
-    }
-
-    public void addResult() throws FileNotFoundException {
+    public void addResult() {
         //competition or not
         System.out.println("Indtastning af resultat.");
         Controller controller = userInterface.getController();
@@ -247,7 +223,7 @@ public class TrainerUserInterface {
                 double timeResult = userInterface.getInputDouble("Venligst indtast tidsresultatet i sekunder: ", 1, 1500);
 
                 //Date
-                LocalDate date = getDate();
+                LocalDate date = userInterface.getDate();
 
                 //CompetitionTitle
                 String competitionTitle = userInterface.getStringInput("Venligst indtast stævnenavn: ", 1, 100, "Ugyldig indtastning");
@@ -270,7 +246,7 @@ public class TrainerUserInterface {
                 double timeResult = userInterface.getInputDouble("Venligst indtast tidsresultatet i sekunder: ", 1, 10000);
 
                 //Date
-                LocalDate date = getDate();
+                LocalDate date = userInterface.getDate();
 
                 controller.addTrainingResult(disciplinetitle, timeResult, userId, date); //String disciplineTitle, double resultTime, String userId, LocalDate date
                 controller.saveResults();

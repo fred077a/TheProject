@@ -1,5 +1,5 @@
-import UI.AccountantUserInterface;
-import UI.UserInterface;
+import kodeklubben.delfinen.ui.AccountantUserInterface;
+import kodeklubben.delfinen.ui.UserInterface;
 import org.junit.Test;
 import java.io.FileNotFoundException;
 

@@ -1,7 +1,5 @@
 package kodeklubben.delfinen;
-
 import kodeklubben.delfinen.ui.UserInterface;
-
 import java.io.FileNotFoundException;
 
 public class Main {
